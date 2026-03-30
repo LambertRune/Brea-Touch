@@ -5,7 +5,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./Header.module.css";
 
-const navItems = [
+type NavItem = {
+  label: string;
+  href: string;
+  external?: boolean;
+};
+
+const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Missie & Visie", href: "/missie-visie" },
   { label: "Doe Mee", href: "/doe-mee" },
