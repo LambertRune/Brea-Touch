@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import styles from "./Header.module.css";
 
@@ -44,22 +45,14 @@ export default function Header() {
     <header className={styles.header} id="site-header">
       <div className={styles.headerInner}>
         <Link href="/" className={styles.logo} aria-label="BréaTouch home">
-          <svg
-            width="40"
-            height="40"
-            viewBox="0 0 40 40"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className={styles.logoIcon}
-          >
-            <rect width="18" height="18" rx="9" fill="#715b52" />
-            <rect x="22" width="18" height="18" rx="5" fill="#b2a952" />
-            <rect y="22" width="18" height="18" rx="5" fill="#a3b0ad" />
-            <circle cx="31" cy="31" r="9" fill="#d8ad9b" />
-          </svg>
-          <span className={styles.logoText}>
-            Bréa<span className={styles.logoAccent}>Touch</span>
-          </span>
+          <Image
+            src="/pictures/LOGO zonder achtergrond.png"
+            alt="BréaTouch Logo"
+            width={160}
+            height={48}
+            className={styles.logoImage}
+            priority
+          />
         </Link>
 
         <nav

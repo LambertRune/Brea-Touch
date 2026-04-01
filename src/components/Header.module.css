@@ -25,26 +25,21 @@
 .logo {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
   text-decoration: none;
   position: relative;
   z-index: 101;
 }
 
-.logoIcon {
-  flex-shrink: 0;
+.logoImage {
+  width: auto;
+  height: 42px;
+  object-fit: contain;
 }
 
-.logoText {
-  font-family: var(--font-heading), "Nunito", sans-serif;
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--color-charcoal);
-  letter-spacing: -0.02em;
-}
-
-.logoAccent {
-  color: var(--color-brown);
+@media (max-width: 768px) {
+  .logoImage {
+    height: 36px;
+  }
 }
 
 /* Navigation */
