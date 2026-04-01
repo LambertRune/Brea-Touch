@@ -27,6 +27,7 @@
   align-items: center;
   gap: var(--space-sm);
   text-decoration: none;
+  position: relative;
   z-index: 101;
 }
 
@@ -96,6 +97,7 @@
   border: none;
   cursor: pointer;
   padding: 8px;
+  position: relative;
   z-index: 101;
 }
 
@@ -129,7 +131,11 @@
 
   .nav {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
     background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(20px);
     flex-direction: column;
