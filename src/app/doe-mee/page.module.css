@@ -57,7 +57,11 @@
 }
 
 .optionSponsor::before {
-  background: linear-gradient(90deg, var(--color-sage), var(--color-dark-brown));
+  background: linear-gradient(
+    90deg,
+    var(--color-sage),
+    var(--color-dark-brown)
+  );
 }
 
 .optionIconWrap {
@@ -234,7 +238,9 @@
   color: var(--color-brown);
   font-weight: 600;
 }
-
+.sponsors {
+  background-color: var(--color-bg-warm);
+}
 /* Sponsors */
 .sponsorsPlaceholder {
   max-width: 480px;

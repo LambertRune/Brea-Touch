@@ -30,7 +30,9 @@ export default function DoeMee() {
             {/* Fund Me */}
             <div className={`card ${styles.optionCard} ${styles.optionFund}`}>
               <div className={styles.optionIconWrap}>
-                <div className={`${styles.optionIcon} ${styles.optionIconFund}`}>
+                <div
+                  className={`${styles.optionIcon} ${styles.optionIconFund}`}
+                >
                   <svg
                     width="32"
                     height="32"
@@ -59,7 +61,9 @@ export default function DoeMee() {
             {/* Vertel het verder */}
             <div className={`card ${styles.optionCard} ${styles.optionShare}`}>
               <div className={styles.optionIconWrap}>
-                <div className={`${styles.optionIcon} ${styles.optionIconShare}`}>
+                <div
+                  className={`${styles.optionIcon} ${styles.optionIconShare}`}
+                >
                   <svg
                     width="32"
                     height="32"
@@ -93,7 +97,16 @@ export default function DoeMee() {
                   className={styles.socialBtn}
                   aria-label="Deel op Instagram"
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
                     <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
@@ -107,7 +120,12 @@ export default function DoeMee() {
                   className={styles.socialBtn}
                   aria-label="Volg op TikTok"
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
                     <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.88-2.89 2.89 2.89 0 0 1 2.88-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V9.14a8.16 8.16 0 0 0 3.76.92V6.69z" />
                   </svg>
                   TikTok
@@ -116,7 +134,9 @@ export default function DoeMee() {
             </div>
 
             {/* Sponsoring */}
-            <div className={`card ${styles.optionCard} ${styles.optionSponsor}`}>
+            <div
+              className={`card ${styles.optionCard} ${styles.optionSponsor}`}
+            >
               <div className={styles.optionIconWrap}>
                 <div
                   className={`${styles.optionIcon} ${styles.optionIconSponsor}`}
@@ -130,9 +150,13 @@ export default function DoeMee() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
+                    aria-hidden
                   >
-                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
-                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                    <path d="m11 17 2 2a1 1 0 1 0 3-3" />
+                    <path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4" />
+                    <path d="m21 3 1 11h-2" />
+                    <path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3" />
+                    <path d="M3 4h8" />
                   </svg>
                 </div>
               </div>
@@ -153,70 +177,17 @@ export default function DoeMee() {
       </section>
 
       {/* Samenwerking */}
-      <section className="section section--warm" id="samenwerking">
-        <div className="container">
-          <div className={styles.collab}>
-            <div className={styles.collabContent}>
-              <span className="badge badge--sage">Samenwerking</span>
-              <h2>Win-win partnerschappen</h2>
-              <div className="divider" />
-              <p>
-                BréaTouch kiest ervoor om samen te werken met bestaande
-                producenten van douche- en verzorgingsproducten. In plaats van
-                alles zelf te ontwikkelen, willen we partnerschappen aangaan met
-                merken die reeds kwalitatieve producten aanbieden.
-              </p>
-              <div className={styles.collabBenefits}>
-                <div className={styles.benefit}>
-                  <div className={styles.benefitCheck}>✓</div>
-                  <div>
-                    <strong>Hogere productkwaliteit</strong>
-                    <p>Door samenwerking met ervaren merken</p>
-                  </div>
-                </div>
-                <div className={styles.benefit}>
-                  <div className={styles.benefitCheck}>✓</div>
-                  <div>
-                    <strong>Snellere lancering</strong>
-                    <p>Op de markt dankzij bestaande infrastructuur</p>
-                  </div>
-                </div>
-                <div className={styles.benefit}>
-                  <div className={styles.benefitCheck}>✓</div>
-                  <div>
-                    <strong>Grotere aantrekkelijkheid</strong>
-                    <p>
-                      Een totaalervaring waarbij verzorging en bewustwording
-                      samenkomen
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className={styles.collabVisual}>
-              <div className={styles.conceptCard}>
-                <h4>Concept</h4>
-                <ul>
-                  <li>Integratie staaltjes douchegel of verzorgingsproducten</li>
-                  <li>Verkoop in combinatie met de BréaTouch spons</li>
-                  <li>Totaalervaring: verzorging + bewustwording</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Sponsors Placeholder */}
-      <section className="section" id="sponsors">
+      <section className={`section ${styles.sponsors}`} id="sponsors">
         <div className="container text-center">
           <span className="badge badge--yellow">Sponsors</span>
           <h2 style={{ marginTop: "var(--space-md)" }}>Onze sponsors</h2>
           <div className="divider divider--center" />
           <div className={styles.sponsorsPlaceholder}>
             <p>
-              Wordt jouw bedrijf hier vermeld? Neem contact met ons op en
-              ontdek de mogelijkheden.
+              Wordt jouw bedrijf hier vermeld? Neem contact met ons op en ontdek
+              de mogelijkheden.
             </p>
             <Link href="/contact" className="btn btn--primary">
               Word sponsor →

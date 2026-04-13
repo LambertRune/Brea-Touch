@@ -162,8 +162,14 @@
 
 .statItem {
   border-top: 3px solid transparent;
-  background-image: linear-gradient(white, white),
-    linear-gradient(135deg, var(--color-brown), var(--color-rose), var(--color-yellow));
+  background-image:
+    linear-gradient(white, white),
+    linear-gradient(
+      135deg,
+      var(--color-brown),
+      var(--color-rose),
+      var(--color-yellow)
+    );
   background-origin: border-box;
   background-clip: padding-box, border-box;
 }
@@ -219,7 +225,6 @@
   align-items: flex-start;
   justify-content: center;
   gap: var(--space-lg);
-  margin-bottom: var(--space-4xl);
   flex-wrap: wrap;
 }
 

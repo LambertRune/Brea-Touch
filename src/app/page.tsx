@@ -15,14 +15,12 @@ export default function Home() {
         <div className={`container ${styles.heroContent}`}>
           <div className={styles.heroText}>
             <span className="badge badge--rose">Bewustwording</span>
-            <h1 className={styles.heroTitle}>
-              Make the touch matter
-            </h1>
+            <h1 className={styles.heroTitle}>Make the touch matter</h1>
             <p className={styles.heroSubtitle}>
               BréaTouch helpt iedereen op een laagdrempelige en vertrouwde
               manier hun lichaam beter te leren kennen via een voeltool en
-              duidelijke uitleg over zelfonderzoek tegen borstkanker. Zo maken we
-              voelen eenvoudig, vertrouwd en waardevol.
+              duidelijke uitleg over zelfonderzoek tegen borstkanker. Zo maken
+              we voelen eenvoudig, vertrouwd en waardevol.
             </p>
             <div className={styles.heroCta}>
               <Link href="/doe-mee" className="btn btn--primary btn--lg">
@@ -58,7 +56,6 @@ export default function Home() {
             <div className="divider divider--center" />
           </div>
           <div className={`grid grid--3 ${styles.statsGrid}`}>
-            
             <div className={`card stat-card ${styles.statItem}`}>
               <div className="stat-card__number">11.000</div>
               <div className="stat-card__label">
@@ -83,7 +80,10 @@ export default function Home() {
       </section>
 
       {/* About / Portfolio Section */}
-      <section className={`section section--warm ${styles.about}`} id="over-ons">
+      <section
+        className={`section section--warm ${styles.about}`}
+        id="over-ons"
+      >
         <div className="container">
           <div className={styles.aboutGrid}>
             <div className={styles.aboutContent}>
@@ -96,8 +96,8 @@ export default function Home() {
                 kunnen krijgen. Daardoor wordt borstkanker vaak te laat ontdekt.
               </p>
               <p>
-                Niet omdat mensen niet willen zorgen voor zichzelf, maar omdat ze
-                simpelweg niet weten waar ze op moeten letten.
+                Niet omdat mensen niet willen zorgen voor zichzelf, maar omdat
+                ze simpelweg niet weten waar ze op moeten letten.
               </p>
               <p>
                 Bij BréaTouch willen we dat veranderen. Wij geloven dat
@@ -127,7 +127,7 @@ export default function Home() {
       <section className={`section ${styles.solution}`} id="oplossing">
         <div className="container">
           <div className="text-center">
-            <span className="badge badge--rose">De oplossing</span>
+            <span className="badge badge--rose">Hulpmiddel</span>
             <h2>BréaTouch douchespons</h2>
             <div className="divider divider--center" />
             <p
@@ -157,7 +157,7 @@ export default function Home() {
                   <circle cx="12" cy="12" r="3" />
                 </svg>
               </div>
-              <h3>Look</h3>
+              <h3>Kijk</h3>
               <p>
                 Kijk naar je borsten in de spiegel. Let op veranderingen in
                 vorm, grootte of huid.
@@ -188,11 +188,13 @@ export default function Home() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
-                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                  <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                  <path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2" />
+                  <path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2" />
+                  <path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8" />
+                  <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" />
                 </svg>
               </div>
-              <h3>Feel</h3>
+              <h3>Voel</h3>
               <p>
                 Voel met je vingertoppen. De spons helpt je herkennen hoe een
                 knobbeltje aanvoelt.
@@ -227,41 +229,10 @@ export default function Home() {
                   <polyline points="22 4 12 14.01 9 11.01" />
                 </svg>
               </div>
-              <h3>Check</h3>
+              <h3>Begrijp</h3>
               <p>
-                Merk je iets ongewoons? Neem contact op met je huisarts.
-                Vroege detectie redt levens.
-              </p>
-            </div>
-          </div>
-
-          <div className={styles.productFeatures}>
-            <div className={`card ${styles.featureCard}`}>
-              <div className={styles.featureIcon}></div>
-              <h4>Ergonomische borstvorm</h4>
-              <p>Ontworpen om het zelfonderzoek zo realistisch mogelijk te maken.</p>
-            </div>
-            <div className={`card ${styles.featureCard}`}>
-              <div className={styles.featureIcon}></div>
-              <h4>Tastbaar tumorbolletje</h4>
-              <p>
-                Aan de zijkant van de spons zit een &apos;tumor&apos; bolletje zodat je
-                leert herkennen wat je moet voelen.
-              </p>
-            </div>
-            <div className={`card ${styles.featureCard}`}>
-              <div className={styles.featureIcon}></div>
-              <h4>Zachte structuur</h4>
-              <p>
-                Huidvriendelijk en geschikt voor dagelijks gebruik in je
-                doucheroutine.
-              </p>
-            </div>
-            <div className={`card ${styles.featureCard}`}>
-              <div className={styles.featureIcon}></div>
-              <h4>Visuele reminder</h4>
-              <p>
-                De spons herinnert je eraan om jezelf regelmatig te controleren.
+                Merk je iets ongewoons? Neem contact op met je huisarts. Vroege
+                detectie redt levens.
               </p>
             </div>
           </div>
@@ -281,9 +252,9 @@ export default function Home() {
             <div className={`card ${styles.testimonialCard}`}>
               <div className={styles.testimonialQuote}>&ldquo;</div>
               <p className={styles.testimonialText}>
-                Dankzij BréaTouch weet ik eindelijk hoe ik mijn borsten goed
-                kan controleren. Het voelde eerst gek, maar nu is het onderdeel
-                van mijn routine.
+                Dankzij BréaTouch weet ik eindelijk hoe ik mijn borsten goed kan
+                controleren. Het voelde eerst gek, maar nu is het onderdeel van
+                mijn routine.
               </p>
               <div className={styles.testimonialAuthor}>
                 <div className={styles.testimonialAvatar}>S</div>
@@ -311,8 +282,8 @@ export default function Home() {
             <div className={`card ${styles.testimonialCard}`}>
               <div className={styles.testimonialQuote}>&ldquo;</div>
               <p className={styles.testimonialText}>
-                Geweldig concept! De spons is kwalitatief en het idee erachter is
-                briljant. Elke douche herinnert me eraan om even te checken.
+                Geweldig concept! De spons is kwalitatief en het idee erachter
+                is briljant. Elke douche herinnert me eraan om even te checken.
               </p>
               <div className={styles.testimonialAuthor}>
                 <div className={styles.testimonialAvatar}>L</div>
@@ -330,9 +301,7 @@ export default function Home() {
       <section className={styles.cta} id="cta">
         <div className={styles.ctaPattern} />
         <div className={`container text-center ${styles.ctaContent}`}>
-          <h2 className={styles.ctaTitle}>
-            Samen maken we het verschil
-          </h2>
+          <h2 className={styles.ctaTitle}>Samen maken we het verschil</h2>
           <p className={styles.ctaText}>
             Iedereen kan iets betekenen. Of je nu jong bent of al wat meer
             levenservaring hebt, jouw inzet telt.

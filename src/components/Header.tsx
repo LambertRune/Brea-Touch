@@ -16,6 +16,7 @@ const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Missie & Visie", href: "/missie-visie" },
   { label: "Doe Mee", href: "/doe-mee" },
+  { label: "Team", href: "/team" },
   { label: "Contact", href: "/contact" },
   // {
   //   label: "Webshop",
@@ -42,16 +43,21 @@ export default function Header() {
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
-    <header className={styles.header} id="site-header">
+    <header
+      className={styles.header}
+      id="site-header"
+      style={{ backgroundColor: "#f5f2ee" }}
+    >
       <div className={styles.headerInner}>
         <Link href="/" className={styles.logo} aria-label="BréaTouch home">
           <Image
-            src="/pictures/LOGO zonder achtergrond.png"
+            src="/pictures/LOGO.svg"
             alt="BréaTouch Logo"
-            width={160}
-            height={48}
+            width={500}
+            height={200}
             className={styles.logoImage}
             priority
+            unoptimized
           />
         </Link>
 

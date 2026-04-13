@@ -22,23 +22,25 @@
 }
 
 /* Logo */
+
 .logo {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  line-height: 0;
   text-decoration: none;
-  position: relative;
-  z-index: 101;
 }
 
 .logoImage {
+  display: block;
   width: auto;
-  height: 42px;
+  height: 70px;
   object-fit: contain;
+  background: transparent;
 }
 
 @media (max-width: 768px) {
   .logoImage {
-    height: 36px;
+    height: 70px;
   }
 }
 
