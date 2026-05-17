@@ -68,10 +68,12 @@ export const client = createDirectus<Schema>(directusUrl).with(rest(restOptions)
 export function getServerDirectus() {
   const token = process.env.DIRECTUS_TOKEN;
   if (!token) {
-    if (process.env.NODE_ENV === "development") {
-      console.warn(
-        "[directus] DIRECTUS_TOKEN is not set. Server CMS requests may fail.",
-      );
+    const msg =
+      "[directus] DIRECTUS_TOKEN is not set — sponsors/legal_pages need it (public read is 403).";
+    if (process.env.NODE_ENV === "production") {
+      console.error(msg);
+    } else {
+      console.warn(msg);
     }
     return createDirectus<Schema>(directusUrl).with(rest(restOptions));
   }

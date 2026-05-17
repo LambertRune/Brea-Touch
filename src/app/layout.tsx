@@ -5,6 +5,9 @@ import Footer from "@/components/Footer";
 import { SiteChrome } from "@/components/SiteChrome";
 import ScrollToTop from "@/components/ScrollToTop";
 import "./globals.css";
+import { CMS_REVALIDATE_SECONDS } from "@/lib/cms";
+
+export const revalidate = CMS_REVALIDATE_SECONDS;
 
 export const metadata: Metadata = {
   title: {

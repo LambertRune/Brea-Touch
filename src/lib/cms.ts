@@ -10,6 +10,11 @@ import {
 
 export { getImageUrl } from "@/lib/directus-url";
 
+/** ISR for all CMS-driven server components (layout footer, pages). */
+export const CMS_REVALIDATE_SECONDS = 60;
+
+const publishedOnly = { status: { _eq: "published" as const } };
+
 function asList<T>(value: unknown): T[] {
   return Array.isArray(value) ? value : [];
 }
@@ -29,6 +34,7 @@ export async function getPublishedTestimonials(): Promise<Testimonial[]> {
     const directus = getServerDirectus();
     const items = await directus.request(
       readItems("testimonials", {
+        filter: publishedOnly,
         sort: ["sort", "id"],
         limit: 3,
       }),
@@ -45,6 +51,7 @@ export async function getPublishedLegalPages(): Promise<LegalPage[]> {
     const directus = getServerDirectus();
     const items = await directus.request(
       readItems("legal_pages", {
+        filter: publishedOnly,
         sort: ["sort", "id"],
       }),
     );
@@ -62,7 +69,7 @@ export async function getLegalPageBySlug(
     const directus = getServerDirectus();
     const items = await directus.request(
       readItems("legal_pages", {
-        filter: { slug: { _eq: slug } },
+        filter: { _and: [publishedOnly, { slug: { _eq: slug } }] },
         limit: 1,
       }),
     );
@@ -79,6 +86,7 @@ export async function getPublishedSponsors(): Promise<Sponsor[]> {
     const directus = getServerDirectus();
     const items = await directus.request(
       readItems("sponsors", {
+        filter: publishedOnly,
         sort: ["sort", "id"],
       }),
     );
