@@ -1,4 +1,4 @@
-import { Plus_Jakarta_Sans, Nunito } from "next/font/google";
+import { Plus_Jakarta_Sans, Nunito, League_Gothic } from "next/font/google";
 
 // Plus Jakarta Sans for body text
 export const plusJakartaSans = Plus_Jakarta_Sans({
@@ -15,4 +15,11 @@ export const headingFont = Nunito({
   display: "swap",
   variable: "--font-heading",
   weight: ["400", "600", "700", "800", "900"],
+});
+
+export const leagueGothic = League_Gothic({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-hero-title",
+  weight: "400",
 });

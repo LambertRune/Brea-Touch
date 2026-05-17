@@ -3,14 +3,9 @@
   position: relative;
   min-height: calc(100vh - 72px);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   overflow: hidden;
-  background: linear-gradient(
-    160deg,
-    #fff 0%,
-    rgba(231, 228, 223, 0.3) 50%,
-    rgba(216, 173, 155, 0.08) 100%
-  );
+  background: #7f7a3a;
 }
 
 .heroDecor {
@@ -67,22 +62,72 @@
 
 .heroContent {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-4xl);
-  align-items: center;
-  padding-top: var(--space-3xl);
+  grid-template-columns: 1fr;
+  width: 100%;
+  max-width: var(--container-max);
+  margin-left: 0;
+  margin-right: auto;
+  padding-top: var(--space-5xl);
   padding-bottom: var(--space-3xl);
+  padding-left: 0;
+  padding-right: var(--space-xl);
+  align-items: center;
 }
 
 .heroText {
-  animation: fadeInUp 0.8s ease-out;
+  text-align: left;
 }
 
 .heroTitle {
-  font-size: clamp(2.8rem, 5.5vw, 4.5rem);
-  line-height: 1.08;
-  margin: var(--space-lg) 0;
-  letter-spacing: -0.03em;
+  font-family: var(--font-hero-title), "League Gothic", Impact, sans-serif;
+  font-weight: 400;
+  padding-left: 20px;
+  font-size: 120px;
+  color: #e1a997;
+}
+
+.heroTitleLine {
+  display: block;
+}
+
+.heroChar {
+  display: inline-block;
+  opacity: 0;
+  transform: translate3d(0, 0.4em, 0);
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroChar {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+}
+
+.heroScrollHint {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-xl);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e1a997;
+  line-height: 0;
+  transition:
+    color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.heroScrollHint:hover {
+  color: var(--color-rose);
+  transform: translateX(-50%) translateY(4px);
+}
+
+.heroScrollIcon {
+  width: 3rem;
+  height: 3rem;
 }
 
 .heroAccent {
@@ -94,7 +139,7 @@
 
 .heroSubtitle {
   font-size: 1.125rem;
-  color: var(--color-text-light);
+  color: rgba(255, 255, 255, 0.9);
   line-height: 1.8;
   max-width: 520px;
   margin-bottom: var(--space-2xl);
@@ -322,15 +367,68 @@
   padding: var(--space-2xl);
 }
 
+.testimonialGrid > .testimonialCard:nth-child(1) {
+  border: 2px solid #99ada8;
+}
+
+.testimonialGrid > .testimonialCard:nth-child(2) {
+  border: 2px solid #b2a83d;
+}
+
+.testimonialGrid > .testimonialCard:nth-child(3) {
+  border: 2px solid var(--color-rose);
+}
+
 .testimonialQuote {
   font-family: var(--font-heading), "Nunito", serif;
   font-size: 4rem;
-  line-height: 1;
+  line-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 1em;
+  height: 1em;
   color: var(--color-rose);
-  opacity: 0.4;
   position: absolute;
-  top: 12px;
+  top: 20px;
   left: 20px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.testimonialQuoteEnd {
+  font-family: var(--font-heading), "Nunito", serif;
+  font-size: 4rem;
+  line-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 1em;
+  height: 1em;
+  color: var(--color-rose);
+  position: absolute;
+  bottom: -10px;
+  right: 20px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.testimonialGrid > .testimonialCard:nth-child(1) .testimonialQuote,
+.testimonialGrid > .testimonialCard:nth-child(1) .testimonialQuoteEnd {
+  color: #99ada8;
+  opacity: 1;
+}
+
+.testimonialGrid > .testimonialCard:nth-child(2) .testimonialQuote,
+.testimonialGrid > .testimonialCard:nth-child(2) .testimonialQuoteEnd {
+  color: #b2a83d;
+  opacity: 1;
+}
+
+.testimonialGrid > .testimonialCard:nth-child(3) .testimonialQuote,
+.testimonialGrid > .testimonialCard:nth-child(3) .testimonialQuoteEnd {
+  color: var(--color-rose);
+  opacity: 1;
 }
 
 .testimonialText {
@@ -338,7 +436,7 @@
   line-height: 1.7;
   color: var(--color-text);
   margin-top: var(--space-lg);
-  margin-bottom: var(--space-xl);
+  margin-bottom: var(--space-lg);
   font-style: italic;
 }
 
@@ -448,9 +546,7 @@
 /* ============ RESPONSIVE ============ */
 @media (max-width: 1024px) {
   .heroContent {
-    grid-template-columns: 1fr;
-    gap: var(--space-2xl);
-    text-align: center;
+    padding-right: var(--space-lg);
   }
 
   .heroSubtitle {
@@ -508,6 +604,10 @@
 }
 
 @media (max-width: 480px) {
+  .heroContent {
+    padding-right: var(--space-md);
+  }
+
   .heroTitle {
     font-size: 2rem;
   }

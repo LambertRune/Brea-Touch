@@ -43,10 +43,6 @@
   padding: var(--space-xl);
 }
 
-.infoCard:hover {
-  transform: translateY(-2px);
-}
-
 .infoIcon {
   display: flex;
   align-items: center;
@@ -125,7 +121,9 @@
   font-size: 0.938rem;
   color: var(--color-charcoal);
   background: var(--color-bg);
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
   outline: none;
   width: 100%;
 }

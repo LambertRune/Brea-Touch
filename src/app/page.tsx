@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowBigDown } from "lucide-react";
+import { HeroAnimatedTitles } from "@/components/HeroAnimatedTitles";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -7,44 +9,22 @@ export default function Home() {
     <>
       {/* Hero Section */}
       <section className={styles.hero} id="hero">
-        <div className={styles.heroDecor}>
-          <div className={styles.decorCircle1} />
-          <div className={styles.decorCircle2} />
-          <div className={styles.decorCircle3} />
-        </div>
-        <div className={`container ${styles.heroContent}`}>
+        <div className={styles.heroContent}>
           <div className={styles.heroText}>
-            <span className="badge badge--rose">Bewustwording</span>
-            <h1 className={styles.heroTitle}>Make the touch matter</h1>
-            <p className={styles.heroSubtitle}>
-              BréaTouch helpt iedereen op een laagdrempelige en vertrouwde
-              manier hun lichaam beter te leren kennen via een voeltool en
-              duidelijke uitleg over zelfonderzoek tegen borstkanker. Zo maken
-              we voelen eenvoudig, vertrouwd en waardevol.
-            </p>
-            <div className={styles.heroCta}>
-              <Link href="/doe-mee" className="btn btn--primary btn--lg">
-                Doe mee
-              </Link>
-              <Link href="/missie-visie" className="btn btn--secondary btn--lg">
-                Onze missie
-              </Link>
-            </div>
-          </div>
-          <div className={styles.heroImage}>
-            <div className={styles.heroImageWrapper}>
-              <Image
-                src="/hero-group.png"
-                alt="Het BréaTouch team – samen voor bewustwording"
-                width={600}
-                height={600}
-                className={styles.heroImg}
-                preload
-              />
-              <div className={styles.heroImageGlow} />
-            </div>
+            <HeroAnimatedTitles />
           </div>
         </div>
+        <a
+          href="#cijfers"
+          className={styles.heroScrollHint}
+          aria-label="Scroll naar de cijfers"
+        >
+          <ArrowBigDown
+            className={styles.heroScrollIcon}
+            strokeWidth={1.75}
+            aria-hidden
+          />
+        </a>
       </section>
 
       {/* Stats Section */}
@@ -52,7 +32,7 @@ export default function Home() {
         <div className="container">
           <div className={styles.statsHeader}>
             <span className="badge badge--yellow">De cijfers</span>
-            <h2>Waarom dit belangrijk is</h2>
+            <h2>Waarom vindt BréaTouch dit belangrijk</h2>
             <div className="divider divider--center" />
           </div>
           <div className={`grid grid--3 ${styles.statsGrid}`}>
@@ -88,7 +68,7 @@ export default function Home() {
           <div className={styles.aboutGrid}>
             <div className={styles.aboutContent}>
               <span className="badge badge--sage">Wie wij zijn</span>
-              <h2>Wij maken het verschil</h2>
+              <h2>BréaTouch maakt het verschil</h2>
               <div className="divider" />
               <p>
                 Veel mensen weten niet hoe een knobbeltje in de borst eigenlijk
@@ -111,7 +91,7 @@ export default function Home() {
             <div className={styles.aboutVisual}>
               <div className={styles.aboutCard}>
                 <Image
-                  src="/product-sponge.png"
+                  src="/pictures/Coming-soon.jpg"
                   alt="BréaTouch douchespons – voeltool voor zelfonderzoek"
                   width={500}
                   height={500}
@@ -246,51 +226,45 @@ export default function Home() {
       >
         <div className="container text-center">
           <span className="badge badge--rose">Getuigenissen</span>
-          <h2>Wat anderen zeggen</h2>
+          <h2>Persoonlijke verhalen</h2>
           <div className="divider divider--center" />
           <div className={styles.testimonialGrid}>
             <div className={`card ${styles.testimonialCard}`}>
-              <div className={styles.testimonialQuote}>&ldquo;</div>
+              <div className={styles.testimonialQuote} aria-hidden="true">
+                &ldquo;
+              </div>
               <p className={styles.testimonialText}>
                 Dankzij BréaTouch weet ik eindelijk hoe ik mijn borsten goed kan
                 controleren. Het voelde eerst gek, maar nu is het onderdeel van
                 mijn routine.
               </p>
-              <div className={styles.testimonialAuthor}>
-                <div className={styles.testimonialAvatar}>S</div>
-                <div>
-                  <strong>Sophie, 24</strong>
-                  <span className={styles.testimonialRole}>Gebruiker</span>
-                </div>
+              <div className={styles.testimonialQuoteEnd} aria-hidden="true">
+                &rdquo;
               </div>
             </div>
             <div className={`card ${styles.testimonialCard}`}>
-              <div className={styles.testimonialQuote}>&ldquo;</div>
+              <div className={styles.testimonialQuote} aria-hidden="true">
+                &ldquo;
+              </div>
               <p className={styles.testimonialText}>
                 Als man wist ik niet dat ik ook risico liep op borstkanker. Dit
                 initiatief doorbreekt het taboe en maakt bewustwording
                 toegankelijk voor iedereen.
               </p>
-              <div className={styles.testimonialAuthor}>
-                <div className={styles.testimonialAvatar}>T</div>
-                <div>
-                  <strong>Thomas, 29</strong>
-                  <span className={styles.testimonialRole}>Supporter</span>
-                </div>
+              <div className={styles.testimonialQuoteEnd} aria-hidden="true">
+                &rdquo;
               </div>
             </div>
             <div className={`card ${styles.testimonialCard}`}>
-              <div className={styles.testimonialQuote}>&ldquo;</div>
+              <div className={styles.testimonialQuote} aria-hidden="true">
+                &ldquo;
+              </div>
               <p className={styles.testimonialText}>
                 Geweldig concept! De spons is kwalitatief en het idee erachter
                 is briljant. Elke douche herinnert me eraan om even te checken.
               </p>
-              <div className={styles.testimonialAuthor}>
-                <div className={styles.testimonialAvatar}>L</div>
-                <div>
-                  <strong>Laura, 31</strong>
-                  <span className={styles.testimonialRole}>Gebruiker</span>
-                </div>
+              <div className={styles.testimonialQuoteEnd} aria-hidden="true">
+                &rdquo;
               </div>
             </div>
           </div>

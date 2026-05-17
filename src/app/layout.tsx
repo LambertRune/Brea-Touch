@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { plusJakartaSans, headingFont } from "./fonts";
+import { plusJakartaSans, headingFont, leagueGothic } from "./fonts";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ScrollToTop from "@/components/ScrollToTop";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -37,9 +38,10 @@ export default function RootLayout({
   return (
     <html
       lang="nl"
-      className={`${plusJakartaSans.variable} ${headingFont.variable}`}
+      className={`${plusJakartaSans.variable} ${headingFont.variable} ${leagueGothic.variable}`}
     >
       <body>
+        <ScrollToTop />
         <Header />
         <main style={{ paddingTop: "72px" }}>{children}</main>
         <Footer />

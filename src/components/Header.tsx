@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { SOCIAL_LINK_LIST } from "@/lib/socialLinks";
 import styles from "./Header.module.css";
 
 type NavItem = {
@@ -16,7 +17,7 @@ const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Missie & Visie", href: "/missie-visie" },
   { label: "Doe Mee", href: "/doe-mee" },
-  { label: "Team", href: "/team" },
+  { label: "Sponsorovereenkomst", href: "/sponsoring-contact" },
   { label: "Contact", href: "/contact" },
   // {
   //   label: "Webshop",
@@ -97,6 +98,21 @@ export default function Header() {
               )}
             </Link>
           ))}
+          <div className={styles.navSocials} aria-label="Volg ons">
+            {SOCIAL_LINK_LIST.map((social) => (
+              <a
+                key={social.href}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.navSocialLink}
+                aria-label={social.ariaLabel}
+                onClick={() => setMenuOpen(false)}
+              >
+                {social.label}
+              </a>
+            ))}
+          </div>
         </nav>
 
         <button

@@ -28,6 +28,7 @@
   gap: var(--space-xl);
 }
 
+/* Zelfde contour als getuigenissen op home: 2px rand per kaart */
 .optionCard {
   text-align: center;
   padding: var(--space-3xl) var(--space-xl);
@@ -36,32 +37,19 @@
   align-items: center;
   position: relative;
   overflow: hidden;
+  border: 2px solid var(--color-border-light);
 }
 
-.optionCard::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  border-radius: 4px 4px 0 0;
+.optionFund {
+  border-color: #99ada8;
 }
 
-.optionFund::before {
-  background: linear-gradient(90deg, var(--color-brown), var(--color-rose));
+.optionShare {
+  border-color: #b2a83d;
 }
 
-.optionShare::before {
-  background: linear-gradient(90deg, var(--color-yellow), var(--color-olive));
-}
-
-.optionSponsor::before {
-  background: linear-gradient(
-    90deg,
-    var(--color-sage),
-    var(--color-dark-brown)
-  );
+.optionSponsor {
+  border-color: var(--color-rose);
 }
 
 .optionIconWrap {
@@ -138,7 +126,6 @@
 .socialBtn:hover {
   background: var(--color-charcoal);
   color: #fff;
-  transform: translateY(-2px);
 }
 
 /* Collab */

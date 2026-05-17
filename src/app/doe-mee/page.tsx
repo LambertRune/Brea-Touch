@@ -53,9 +53,12 @@ export default function DoeMee() {
                 Met jouw gift, groot of klein, geef je onze onderneming de
                 kracht om verder te groeien en meer impact te maken.
               </p>
-              <Link href="/contact" className="btn btn--primary">
+              <a
+                href="https://gofund.me/94dae2071"
+                className="btn btn--primary"
+              >
                 Steun ons
-              </Link>
+              </a>
             </div>
 
             {/* Vertel het verder */}
@@ -85,8 +88,8 @@ export default function DoeMee() {
               <div className={styles.optionLabel}>Deel ons verhaal</div>
               <h3>Vertel het verder</h3>
               <p>
-                Roddel hoeft niet slecht te zijn, deel ons verhaal en laat dit
-                krachtige verhaal de ronde gaan. Door het gewoon door te
+                Roddelen hoeft niet negatief te zijn, deel ons verhaal en laat
+                dit krachtige verhaal rondgaan. Door het gewoon door te
                 vertellen, kan jij echt impact hebben op iemand anders leven.
               </p>
               <div className={styles.socialShare}>
@@ -130,6 +133,23 @@ export default function DoeMee() {
                   </svg>
                   TikTok
                 </a>
+                <a
+                  href="https://www.linkedin.com/in/bréatouch-borstkankerpreventie-8797093b9"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.socialBtn}
+                  aria-label="BréaTouch op LinkedIn"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z" />
+                  </svg>
+                  LinkedIn
+                </a>
               </div>
             </div>
 
@@ -168,7 +188,7 @@ export default function DoeMee() {
                 groeien en meer mensen bereiken – samen werken we aan een
                 duurzame impact.
               </p>
-              <Link href="/contact" className="btn btn--outline">
+              <Link href="/sponsoring-contact" className="btn btn--outline">
                 Word sponsor
               </Link>
             </div>
@@ -186,11 +206,13 @@ export default function DoeMee() {
           <div className="divider divider--center" />
           <div className={styles.sponsorsPlaceholder}>
             <p>
-              Wordt jouw bedrijf hier vermeld? Neem contact met ons op en ontdek
-              de mogelijkheden.
+              Interesse om partner van BréaTouch te worden? Als sponsor maak je
+              samen met ons zelfonderzoek toegankelijk voor iedereen. Op de
+              sponsorpagina vind je onze pakketten (Supporter tot Goud), de
+              voorwaarden en een formulier om vrijblijvend contact op te nemen.
             </p>
-            <Link href="/contact" className="btn btn--primary">
-              Word sponsor →
+            <Link href="/sponsoring-contact" className="btn btn--primary">
+              Sponsorovereenkomst
             </Link>
           </div>
         </div>
