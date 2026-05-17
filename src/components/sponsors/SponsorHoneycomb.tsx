@@ -144,19 +144,35 @@ function useImageGradient(imageUrl: string): string | undefined {
   useEffect(() => {
     if (!imageUrl) return;
     let cancelled = false;
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.onload = () => {
-      if (cancelled) return;
+    let objectUrl: string | undefined;
+
+    void (async () => {
       try {
+        const proxy = `/api/sponsor-image-proxy?url=${encodeURIComponent(imageUrl)}`;
+        const res = await fetch(proxy);
+        if (!res.ok || cancelled) return;
+
+        const blob = await res.blob();
+        objectUrl = URL.createObjectURL(blob);
+
+        const img = new Image();
+        await new Promise<void>((resolve, reject) => {
+          img.onload = () => resolve();
+          img.onerror = () => reject(new Error("decode failed"));
+          img.src = objectUrl!;
+        });
+
+        if (cancelled) return;
         const colors = readDominantColorsFromImage(img);
         if (!colors?.length) return;
         setGradient(buildSoftHexGradient(colors));
       } catch {
-        /* CORS – keep white fallback */
+        /* proxy/decode failed – white fallback */
+      } finally {
+        if (objectUrl) URL.revokeObjectURL(objectUrl);
       }
-    };
-    img.src = imageUrl;
+    })();
+
     return () => {
       cancelled = true;
     };

@@ -1,6 +1,6 @@
 export type Rgb = readonly [number, number, number];
 
-const GRADIENT_OPACITY = 0.2;
+const GRADIENT_OPACITY = 0.24;
 const MIN_COLOR_DISTANCE = 48;
 
 /** Two dominant colors → soft radial tint over white (letterbox areas). */

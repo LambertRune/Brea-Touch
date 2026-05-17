@@ -11,3 +11,19 @@ export function getImageUrl(
   const query = params ? `?${params}` : "";
   return `${directusUrl}/assets/${fileId}${query}`;
 }
+
+/** Only our Directus /assets URLs (for same-origin proxy). */
+export function isAllowedDirectusAssetUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    const base = new URL(directusUrl);
+    return (
+      parsed.origin === base.origin &&
+      parsed.pathname.startsWith("/assets/") &&
+      !parsed.username &&
+      !parsed.password
+    );
+  } catch {
+    return false;
+  }
+}
