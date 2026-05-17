@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { directusUrl } from "@/lib/directus-url";
-import { clearAuthCookies } from "@/lib/auth";
+import { canAccessAdminPanel, clearAuthCookies, validateToken } from "@/lib/auth";
 
 export async function loginAction(_prev: unknown, formData: FormData) {
   const email = String(formData.get("email") || "").trim();
@@ -48,6 +48,15 @@ export async function loginAction(_prev: unknown, formData: FormData) {
       maxAge: 7 * 24 * 60 * 60,
       path: "/",
     });
+
+    const user = await validateToken(access_token);
+    if (!user || !(await canAccessAdminPanel(access_token, user))) {
+      await clearAuthCookies();
+      return {
+        error:
+          "Geen toegang tot het beheerpaneel. Je Directus-rol moet app-toegang hebben.",
+      };
+    }
   } catch (e) {
     console.error("[loginAction]", e);
     return { error: "Er ging iets mis. Probeer het later opnieuw." };

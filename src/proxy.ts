@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { COOKIE_CONFIG, isAdminRole, PROTECTED_ROUTES } from "@/lib/constants";
-import { getRoleId, validateToken } from "@/lib/auth";
+import { COOKIE_CONFIG, PROTECTED_ROUTES } from "@/lib/constants";
+import { canAccessAdminPanel, getRoleId, validateToken } from "@/lib/auth";
 
 const directusUrl =
   process.env.NEXT_PUBLIC_DIRECTUS_URL || "https://dbbreatouch.phiosk.be";
@@ -107,15 +107,15 @@ export async function proxy(request: NextRequest) {
       }
     }
 
-    if (!user || user.status !== "active") {
+    if (!user || user.status !== "active" || !token) {
       if (isAdminApi) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
       }
       return createLogoutRedirect(request);
     }
 
-    const roleId = getRoleId(user.role);
-    if (!isAdminRole(roleId)) {
+    const canAccess = await canAccessAdminPanel(token, user);
+    if (!canAccess) {
       if (isAdminApi) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
@@ -124,13 +124,15 @@ export async function proxy(request: NextRequest) {
       );
     }
 
+    const roleId = getRoleId(user.role);
+
     requestHeaders.set("x-user-id", user.id);
     requestHeaders.set("x-user-role", roleId || "");
   }
 
   if (isAdminLogin && token) {
     const user = await validateToken(token);
-    if (user && user.status === "active" && isAdminRole(getRoleId(user.role))) {
+    if (user && (await canAccessAdminPanel(token, user))) {
       return applyRefreshedCookies(
         NextResponse.redirect(new URL("/admin", request.url)),
       );

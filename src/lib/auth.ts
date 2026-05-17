@@ -1,10 +1,26 @@
 import { cookies } from "next/headers";
-import { ADMIN_ROLES, isAdminRole, ROLES } from "@/lib/constants";
+import { directusUrl } from "@/lib/directus-url";
+import {
+  ADMIN_ROLES,
+  isAdminRole,
+  PUBLIC_ROLE_ID,
+  ROLES,
+} from "@/lib/constants";
 
-export const ADMIN_ROLE_ID = ROLES.ADMIN;
+export const ADMIN_ROLE_ID = ROLES.ADMIN[0];
 
-const directusUrl =
-  process.env.NEXT_PUBLIC_DIRECTUS_URL || "https://dbbreatouch.phiosk.be";
+const ME_FIELDS =
+  "id,email,status,role.id,role.name,role.policies.policy";
+
+export interface DirectusRolePolicyLink {
+  policy?: string | null;
+}
+
+export interface DirectusUserRole {
+  id: string;
+  name?: string;
+  policies?: DirectusRolePolicyLink[] | null;
+}
 
 export interface DirectusUser {
   id: string;
@@ -12,7 +28,7 @@ export interface DirectusUser {
   first_name?: string;
   last_name?: string;
   status: string;
-  role: string | { id: string; name?: string };
+  role: string | DirectusUserRole | null;
 }
 
 export function getRoleId(
@@ -22,6 +38,56 @@ export function getRoleId(
   if (typeof role === "string") return role;
   if (typeof role === "object" && "id" in role) return role.id;
   return null;
+}
+
+function getPolicyIdsFromUser(user: DirectusUser): string[] {
+  const role = user.role;
+  if (!role || typeof role === "string") return [];
+  const policies = role.policies;
+  if (!Array.isArray(policies)) return [];
+  return policies
+    .map((link) => link?.policy)
+    .filter((id): id is string => typeof id === "string" && id.length > 0);
+}
+
+async function policyHasAppAccess(
+  policyId: string,
+  token: string,
+): Promise<boolean> {
+  try {
+    const res = await fetch(
+      `${directusUrl}/policies/${policyId}?fields=app_access`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        cache: "no-store",
+      },
+    );
+    if (!res.ok) return false;
+    const data = await res.json();
+    return data.data?.app_access === true;
+  } catch {
+    return false;
+  }
+}
+
+/** Any Directus user whose role has app_access (Directus 11 policies). */
+export async function canAccessAdminPanel(
+  token: string,
+  user: DirectusUser,
+): Promise<boolean> {
+  if (user.status !== "active") return false;
+
+  const roleId = getRoleId(user.role);
+  if (!roleId || roleId === PUBLIC_ROLE_ID) return false;
+
+  if (isAdminRole(roleId)) return true;
+
+  const policyIds = getPolicyIdsFromUser(user);
+  for (const policyId of policyIds) {
+    if (await policyHasAppAccess(policyId, token)) return true;
+  }
+
+  return false;
 }
 
 export function isAdmin(user: { role?: string | { id: string } | null } | null) {
@@ -74,7 +140,7 @@ export async function getUser(): Promise<DirectusUser | null> {
   if (!token) return null;
 
   try {
-    let res = await fetch(`${directusUrl}/users/me?fields=id,email,status,role`, {
+    let res = await fetch(`${directusUrl}/users/me?fields=${ME_FIELDS}`, {
       headers: { Authorization: `Bearer ${token}` },
       cache: "no-store",
     });
@@ -87,7 +153,7 @@ export async function getUser(): Promise<DirectusUser | null> {
         return null;
       }
       token = refreshed.access_token;
-      res = await fetch(`${directusUrl}/users/me?fields=id,email,status,role`, {
+      res = await fetch(`${directusUrl}/users/me?fields=${ME_FIELDS}`, {
         headers: { Authorization: `Bearer ${token}` },
         cache: "no-store",
       });
@@ -103,14 +169,17 @@ export async function getUser(): Promise<DirectusUser | null> {
 }
 
 export async function getAdminUser(): Promise<DirectusUser | null> {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
   const user = await getUser();
-  if (!user || !isAdmin(user)) return null;
+  if (!user || !token) return null;
+  if (!(await canAccessAdminPanel(token, user))) return null;
   return user;
 }
 
 export async function validateToken(token: string): Promise<DirectusUser | null> {
   try {
-    const res = await fetch(`${directusUrl}/users/me?fields=id,email,status,role`, {
+    const res = await fetch(`${directusUrl}/users/me?fields=${ME_FIELDS}`, {
       headers: { Authorization: `Bearer ${token}` },
       cache: "no-store",
     });
