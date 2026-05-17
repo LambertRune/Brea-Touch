@@ -5,9 +5,9 @@ import Footer from "@/components/Footer";
 import { SiteChrome } from "@/components/SiteChrome";
 import ScrollToTop from "@/components/ScrollToTop";
 import "./globals.css";
-import { CMS_REVALIDATE_SECONDS } from "@/lib/cms";
 
-export const revalidate = CMS_REVALIDATE_SECONDS;
+/** ISR for CMS footer + pages (literal required by Next segment config). */
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: {
