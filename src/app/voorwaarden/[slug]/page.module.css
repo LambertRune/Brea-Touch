@@ -1,0 +1,12 @@
+.page {
+  padding-top: var(--space-3xl);
+  padding-bottom: var(--space-4xl);
+}
+
+.inner {
+  max-width: 720px;
+}
+
+.inner h1 {
+  margin-bottom: var(--space-lg);
+}

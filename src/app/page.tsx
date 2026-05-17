@@ -2,9 +2,59 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowBigDown } from "lucide-react";
 import { HeroAnimatedTitles } from "@/components/HeroAnimatedTitles";
+import { RichTextViewer } from "@/components/RichTextViewer";
+import {
+  getImageUrl,
+  getPublishedTestimonials,
+  getSiteSettings,
+} from "@/lib/cms";
 import styles from "./page.module.css";
 
-export default function Home() {
+const FALLBACK_ABOUT = (
+  <>
+    <p>
+      Veel mensen weten niet hoe een knobbeltje in de borst eigenlijk voelt. En
+      nog minder mensen weten dat ook mannen borstkanker kunnen krijgen. Daardoor
+      wordt borstkanker vaak te laat ontdekt.
+    </p>
+    <p>
+      Niet omdat mensen niet willen zorgen voor zichzelf, maar omdat ze simpelweg
+      niet weten waar ze op moeten letten.
+    </p>
+    <p>
+      Bij BréaTouch willen we dat veranderen. Wij geloven dat bewustwording pas
+      echt werkt als je het kan voelen, begrijpen en herkennen.
+    </p>
+  </>
+);
+
+const FALLBACK_TESTIMONIALS = [
+  "<p>Dankzij BréaTouch weet ik eindelijk hoe ik mijn borsten goed kan controleren. Het voelde eerst gek, maar nu is het onderdeel van mijn routine.</p>",
+  "<p>Als man wist ik niet dat ik ook risico liep op borstkanker. Dit initiatief doorbreekt het taboe en maakt bewustwording toegankelijk voor iedereen.</p>",
+  "<p>Geweldig concept! De spons is kwalitatief en het idee erachter is briljant. Elke douche herinnert me eraan om even te checken.</p>",
+];
+
+export default async function Home() {
+  const [settings, testimonials] = await Promise.all([
+    getSiteSettings(),
+    getPublishedTestimonials(),
+  ]);
+
+  const aboutImage =
+    getImageUrl(settings?.about_image, "width=500&height=500&fit=cover") ||
+    "/pictures/Coming-soon.jpg";
+  const aboutIsRemote = aboutImage.startsWith("http");
+
+  const stories =
+    testimonials.length > 0
+      ? testimonials
+      : FALLBACK_TESTIMONIALS.map((quote, i) => ({
+          id: i,
+          quote,
+          sort: i,
+          status: "published",
+        }));
+
   return (
     <>
       {/* Hero Section */}
@@ -70,20 +120,14 @@ export default function Home() {
               <span className="badge badge--sage">Wie wij zijn</span>
               <h2>BréaTouch maakt het verschil</h2>
               <div className="divider" />
-              <p>
-                Veel mensen weten niet hoe een knobbeltje in de borst eigenlijk
-                voelt. En nog minder mensen weten dat ook mannen borstkanker
-                kunnen krijgen. Daardoor wordt borstkanker vaak te laat ontdekt.
-              </p>
-              <p>
-                Niet omdat mensen niet willen zorgen voor zichzelf, maar omdat
-                ze simpelweg niet weten waar ze op moeten letten.
-              </p>
-              <p>
-                Bij BréaTouch willen we dat veranderen. Wij geloven dat
-                bewustwording pas echt werkt als je het kan voelen, begrijpen en
-                herkennen.
-              </p>
+              {settings?.about_body ? (
+                <RichTextViewer
+                  html={settings.about_body}
+                  className={styles.aboutRichText}
+                />
+              ) : (
+                FALLBACK_ABOUT
+              )}
               <Link href="/missie-visie" className="btn btn--outline">
                 Lees meer over onze missie →
               </Link>
@@ -91,11 +135,12 @@ export default function Home() {
             <div className={styles.aboutVisual}>
               <div className={styles.aboutCard}>
                 <Image
-                  src="/pictures/Coming-soon.jpg"
+                  src={aboutImage}
                   alt="BréaTouch douchespons – voeltool voor zelfonderzoek"
                   width={500}
                   height={500}
                   className={styles.aboutImage}
+                  unoptimized={aboutIsRemote}
                 />
               </div>
             </div>
@@ -229,49 +274,25 @@ export default function Home() {
           <h2>Persoonlijke verhalen</h2>
           <div className="divider divider--center" />
           <div className={styles.testimonialGrid}>
-            <div className={`card ${styles.testimonialCard}`}>
-              <div className={styles.testimonialQuote} aria-hidden="true">
-                &ldquo;
+            {stories.map((item) => (
+              <div key={item.id} className={`card ${styles.testimonialCard}`}>
+                <div className={styles.testimonialQuote} aria-hidden="true">
+                  &ldquo;
+                </div>
+                <RichTextViewer
+                  html={item.quote}
+                  className={styles.testimonialText}
+                />
+                <div className={styles.testimonialQuoteEnd} aria-hidden="true">
+                  &rdquo;
+                </div>
               </div>
-              <p className={styles.testimonialText}>
-                Dankzij BréaTouch weet ik eindelijk hoe ik mijn borsten goed kan
-                controleren. Het voelde eerst gek, maar nu is het onderdeel van
-                mijn routine.
-              </p>
-              <div className={styles.testimonialQuoteEnd} aria-hidden="true">
-                &rdquo;
-              </div>
-            </div>
-            <div className={`card ${styles.testimonialCard}`}>
-              <div className={styles.testimonialQuote} aria-hidden="true">
-                &ldquo;
-              </div>
-              <p className={styles.testimonialText}>
-                Als man wist ik niet dat ik ook risico liep op borstkanker. Dit
-                initiatief doorbreekt het taboe en maakt bewustwording
-                toegankelijk voor iedereen.
-              </p>
-              <div className={styles.testimonialQuoteEnd} aria-hidden="true">
-                &rdquo;
-              </div>
-            </div>
-            <div className={`card ${styles.testimonialCard}`}>
-              <div className={styles.testimonialQuote} aria-hidden="true">
-                &ldquo;
-              </div>
-              <p className={styles.testimonialText}>
-                Geweldig concept! De spons is kwalitatief en het idee erachter
-                is briljant. Elke douche herinnert me eraan om even te checken.
-              </p>
-              <div className={styles.testimonialQuoteEnd} aria-hidden="true">
-                &rdquo;
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
+            {/* CTA Section */}
       <section className={styles.cta} id="cta">
         <div className={styles.ctaPattern} />
         <div className={`container text-center ${styles.ctaContent}`}>

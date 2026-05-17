@@ -1,0 +1,613 @@
+/* Admin-only styles (imported from admin/layout.tsx). Uses site design tokens from globals.css */
+
+[data-admin],
+[data-admin-login] {
+  font-family: var(--font-body), "Plus Jakarta Sans", sans-serif;
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+[data-admin] h1,
+[data-admin] h2,
+[data-admin-login] h1 {
+  font-family: var(--font-heading), "Nunito", sans-serif;
+  color: var(--color-charcoal);
+  letter-spacing: -0.02em;
+}
+
+[data-admin] h1 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin-bottom: var(--space-sm);
+}
+
+[data-admin] .admin-muted {
+  color: var(--color-text-light);
+  margin-bottom: var(--space-xl);
+}
+
+/* —— Login —— */
+[data-admin-login] .admin-login-page {
+  position: relative;
+  display: flex;
+  min-height: 100dvh;
+  flex-direction: column;
+  background: linear-gradient(
+    165deg,
+    var(--color-bg-warm) 0%,
+    var(--color-bg) 45%,
+    var(--color-bg-alt) 100%
+  );
+}
+
+[data-admin-login] .admin-login-header {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  padding: var(--space-lg) var(--space-xl);
+}
+
+[data-admin-login] .admin-login-main {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl);
+}
+
+[data-admin-login] .admin-login-footer {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  margin-top: auto;
+  padding: var(--space-md) var(--space-xl);
+  border-top: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.75);
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+[data-admin-login] .admin-login-card {
+  width: 100%;
+  max-width: 420px;
+  padding: var(--space-2xl);
+}
+
+[data-admin-login] .admin-login-icon {
+  display: flex;
+  width: 3rem;
+  height: 3rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-md);
+  border-radius: var(--radius-md);
+  background: rgba(176, 132, 113, 0.12);
+  color: var(--color-brown);
+}
+
+[data-admin-login] .admin-login-card h1 {
+  font-size: 1.5rem;
+  margin-bottom: var(--space-xs);
+}
+
+[data-admin-login] .admin-login-card p {
+  color: var(--color-text-light);
+  margin-bottom: var(--space-xl);
+}
+
+[data-admin-login] .admin-error {
+  margin-bottom: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  background: rgba(180, 60, 50, 0.08);
+  color: #9b2c2c;
+  font-size: 0.875rem;
+}
+
+/* —— Shell layout —— */
+[data-admin] .admin-shell {
+  display: flex;
+  min-height: 100dvh;
+  background: var(--color-bg-alt);
+}
+
+[data-admin] .admin-sidebar {
+  display: none;
+  width: 260px;
+  flex-shrink: 0;
+  flex-direction: column;
+  border-right: 1px solid var(--color-border);
+  background: var(--color-bg);
+}
+
+[data-admin] .admin-sidebar-brand {
+  padding: var(--space-xl) var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+[data-admin] .admin-sidebar-brand span:first-child {
+  display: block;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+[data-admin] .admin-sidebar-brand span:last-child {
+  display: block;
+  margin-top: var(--space-xs);
+  font-family: var(--font-heading), "Nunito", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-charcoal);
+}
+
+[data-admin] .admin-nav {
+  flex: 1;
+  padding: var(--space-md);
+  overflow-y: auto;
+}
+
+[data-admin] .admin-nav-label {
+  margin-bottom: var(--space-sm);
+  padding: 0 var(--space-sm);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+[data-admin] .admin-nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: 2px;
+  padding: 0.65rem var(--space-md);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+[data-admin] .admin-nav-link:hover {
+  background: var(--color-bg-warm);
+  color: var(--color-charcoal);
+}
+
+[data-admin] .admin-nav-link--active {
+  background: var(--color-charcoal);
+  color: #fff;
+}
+
+[data-admin] .admin-nav-link--active:hover {
+  color: #fff;
+}
+
+[data-admin] .admin-sidebar-foot {
+  padding: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+
+[data-admin] .admin-main-wrap {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+[data-admin] .admin-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+}
+
+[data-admin] .admin-topbar-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-light);
+}
+
+[data-admin] .admin-content {
+  flex: 1;
+  padding: var(--space-lg);
+}
+
+[data-admin] .admin-content-inner {
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+[data-admin] .admin-menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  color: var(--color-charcoal);
+  cursor: pointer;
+}
+
+[data-admin] .admin-mobile-fab {
+  position: fixed;
+  right: var(--space-lg);
+  bottom: var(--space-lg);
+  z-index: 50;
+  display: flex;
+  width: 3.5rem;
+  height: 3.5rem;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--radius-full);
+  background: var(--color-charcoal);
+  color: #fff;
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+}
+
+[data-admin] .admin-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(73, 73, 73, 0.4);
+}
+
+[data-admin] .admin-sidebar--mobile {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 45;
+  display: flex;
+  width: min(280px, 88vw);
+  flex-direction: column;
+  background: var(--color-bg);
+  box-shadow: var(--shadow-xl);
+}
+
+/* —— Forms —— */
+[data-admin] .admin-field {
+  margin-bottom: var(--space-md);
+}
+
+[data-admin] .admin-label {
+  display: block;
+  margin-bottom: var(--space-xs);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-charcoal);
+}
+
+[data-admin] .admin-input,
+[data-admin] .admin-select,
+[data-admin-login] .admin-input {
+  display: block;
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--color-text);
+  background: var(--color-bg);
+  transition: border-color var(--transition-fast);
+}
+
+[data-admin] .admin-input:focus,
+[data-admin] .admin-select:focus,
+[data-admin-login] .admin-input:focus {
+  outline: none;
+  border-color: var(--color-brown);
+  box-shadow: 0 0 0 3px rgba(176, 132, 113, 0.2);
+}
+
+[data-admin] .admin-grid-2,
+[data-admin] .admin-grid-3 {
+  display: grid;
+  gap: var(--space-md);
+}
+
+[data-admin] .admin-list-title {
+  font-weight: 600;
+  margin: 0 0 var(--space-xs);
+}
+
+[data-admin] .admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+[data-admin] .admin-panel {
+  margin-bottom: var(--space-xl);
+  padding: var(--space-xl);
+}
+
+[data-admin] .admin-panel h2 {
+  font-size: 1.125rem;
+  margin-bottom: var(--space-md);
+}
+
+[data-admin] .admin-list-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  margin-bottom: var(--space-sm);
+}
+
+[data-admin] .admin-sortable-item {
+  flex-wrap: nowrap;
+  align-items: stretch;
+}
+
+[data-admin] .admin-sortable-item--dragging {
+  opacity: 0.45;
+}
+
+[data-admin] .admin-sortable-item--over {
+  border-color: var(--color-brown);
+  box-shadow: 0 0 0 2px rgba(176, 132, 113, 0.2);
+}
+
+[data-admin] .admin-sortable-handle {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  padding: var(--space-xs);
+  margin: 0;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: grab;
+}
+
+[data-admin] .admin-sortable-handle:hover {
+  color: var(--color-charcoal);
+  background: var(--color-bg-alt);
+}
+
+[data-admin] .admin-sortable-handle:active {
+  cursor: grabbing;
+}
+
+[data-admin] .admin-sortable-handle:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-admin] .admin-sortable-content {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  min-width: 0;
+}
+
+[data-admin] .admin-list-meta {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+[data-admin] .admin-dash-grid {
+  display: grid;
+  gap: var(--space-md);
+}
+
+[data-admin] .admin-dash-card {
+  display: block;
+  height: 100%;
+  padding: var(--space-xl);
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+[data-admin] .admin-dash-card:hover {
+  border-color: var(--color-brown);
+  box-shadow: var(--shadow-md);
+}
+
+[data-admin] .admin-dash-card h3 {
+  font-size: 1.125rem;
+  margin-bottom: var(--space-sm);
+  color: var(--color-charcoal);
+}
+
+[data-admin] .admin-dash-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+}
+
+[data-admin] .btn--danger {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+[data-admin] .btn--danger:hover {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+@media (min-width: 1024px) {
+  [data-admin] .admin-sidebar {
+    display: flex;
+  }
+
+  [data-admin] .admin-menu-toggle,
+  [data-admin] .admin-mobile-fab,
+  [data-admin] .admin-overlay,
+  [data-admin] .admin-sidebar--mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 640px) {
+  [data-admin] .admin-grid-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  [data-admin] .admin-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  [data-admin] .admin-dash-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  [data-admin] .admin-content {
+    padding: var(--space-2xl);
+  }
+}
+
+/* —— Rich text editor (TipTap) —— */
+[data-admin] .admin-editor {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+}
+
+[data-admin] .admin-editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-warm);
+}
+
+[data-admin] .admin-editor-sep {
+  width: 1px;
+  height: 1.25rem;
+  margin: 0 4px;
+  background: var(--color-border);
+}
+
+[data-admin] .admin-editor-tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-charcoal);
+  cursor: pointer;
+}
+
+[data-admin] .admin-editor-tool:hover {
+  background: var(--color-bg-alt);
+}
+
+[data-admin] .admin-editor-tool--active {
+  background: var(--color-charcoal);
+  color: #fff;
+}
+
+[data-admin] .admin-editor-tool:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+[data-admin] .admin-editor-body {
+  overflow: auto;
+  padding: var(--space-md);
+}
+
+[data-admin] .admin-editor-body .tiptap {
+  min-height: 120px;
+  outline: none;
+}
+
+[data-admin] .admin-editor-body .tiptap p {
+  margin-bottom: 0.75em;
+}
+
+[data-admin] .admin-editor-body .tiptap h1,
+[data-admin] .admin-editor-body .tiptap h2,
+[data-admin] .admin-editor-body .tiptap h3 {
+  margin: 1em 0 0.5em;
+  font-family: var(--font-heading), "Nunito", sans-serif;
+}
+
+[data-admin] .admin-editor-body .tiptap ul,
+[data-admin] .admin-editor-body .tiptap ol {
+  margin: 0 0 0.75em;
+  padding-left: 1.5em;
+}
+
+[data-admin] .admin-editor-body .tiptap a {
+  color: var(--color-brown);
+  text-decoration: underline;
+}
+
+[data-admin] .admin-image-preview {
+  position: relative;
+  width: 10rem;
+  height: 10rem;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  margin-bottom: var(--space-sm);
+}
+
+/* —— Page loader (loading.tsx) —— */
+[data-admin] .admin-page-loader,
+[data-admin-login] .admin-page-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  min-height: 40vh;
+  padding: var(--space-3xl);
+  color: var(--color-text-light);
+}
+
+[data-admin] .admin-page-loader__spinner,
+[data-admin-login] .admin-page-loader__spinner {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-brown);
+  border-radius: 50%;
+  animation: admin-spin 0.75s linear infinite;
+}
+
+@keyframes admin-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

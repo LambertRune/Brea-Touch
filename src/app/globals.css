@@ -14,6 +14,12 @@
   --color-olive: #b2a952;
   --color-dark-brown: #715b52;
 
+  /* Contact, honeycomb, home verhalen — zelfde accent-randen */
+  --border-accent-green: #99ada8;
+  --border-accent-olive: #b2a83d;
+  --border-accent-rose: #d8ad9b;
+  --border-accent-brown: #b08471;
+
   /* Semantic Colors */
   --color-bg: #ffffff;
   --color-bg-alt: #faf9f7;
@@ -477,4 +483,17 @@ img {
     padding: 14px 28px;
     font-size: 1rem;
   }
+}
+
+/* Sticky footer: footer stays at bottom on short pages */
+.site-shell {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-main {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
 }

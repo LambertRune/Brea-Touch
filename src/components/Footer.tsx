@@ -1,7 +1,11 @@
 import Link from "next/link";
+import { getPublishedLegalPages } from "@/lib/cms";
 import styles from "./Footer.module.css";
 
-export default function Footer() {
+export default async function Footer() {
+  const legalPages = await getPublishedLegalPages();
+  const pages = Array.isArray(legalPages) ? legalPages : [];
+
   return (
     <footer className={styles.footer} id="site-footer">
       <div className={styles.footerTop}>
@@ -88,15 +92,21 @@ export default function Footer() {
           </div>
           <div className={styles.footerLinks}>
             <h4 className={styles.footerTitle}>Juridische Informatie</h4>
-            <Link href="/privacy-policy" className={styles.footerLink}>
-              Privacyverklaring
-            </Link>
-            <Link href="/cookies" className={styles.footerLink}>
-              Cookieverklaring
-            </Link>
-            <Link href="/disclaimer" className={styles.footerLink}>
-              Disclaimer
-            </Link>
+            {pages.length === 0 ? (
+              <span className={styles.footerMuted}>
+                Nog geen pagina&apos;s gepubliceerd
+              </span>
+            ) : (
+              pages.map((page) => (
+                <Link
+                  key={page.id}
+                  href={`/voorwaarden/${page.slug}`}
+                  className={styles.footerLink}
+                >
+                  {page.title}
+                </Link>
+              ))
+            )}
           </div>
 
           <div className={styles.footerLinks}>
@@ -112,10 +122,13 @@ export default function Footer() {
       </div>
 
       <div className={styles.footerBottom}>
-        <div className="container">
+        <div className={`container ${styles.footerBottomInner}`}>
           <p className={styles.copyright}>
             © {new Date().getFullYear()} BréaTouch. Alle rechten voorbehouden.
           </p>
+          <Link href="/admin/login" className={styles.adminLink}>
+            Beheer
+          </Link>
         </div>
       </div>
     </footer>

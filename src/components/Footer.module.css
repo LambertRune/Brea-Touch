@@ -95,10 +95,34 @@
   padding: var(--space-lg) 0;
 }
 
+.footerBottomInner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md) var(--space-xl);
+}
+
 .copyright {
   font-size: 0.813rem;
   color: rgba(255, 255, 255, 0.4);
   text-align: center;
+  margin: 0;
+}
+
+.adminLink {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.35);
+  text-decoration: none;
+}
+
+.adminLink:hover {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.footerMuted {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.45);
 }
 
 /* Responsive */

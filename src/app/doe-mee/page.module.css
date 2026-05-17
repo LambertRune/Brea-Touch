@@ -238,9 +238,19 @@
   border: 2px dashed var(--color-border);
 }
 
+.sponsorsPlaceholder:has([role="list"]) {
+  max-width: min(100%, 900px);
+  padding: var(--space-2xl) var(--space-md);
+  overflow: visible;
+}
+
 .sponsorsPlaceholder p {
   color: var(--color-text-light);
   margin-bottom: var(--space-xl);
+}
+
+.sponsorsPlaceholder:has([role="list"]) p {
+  margin-top: var(--space-2xl);
 }
 
 /* Responsive */

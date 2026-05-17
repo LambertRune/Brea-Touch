@@ -1,0 +1,91 @@
+import {
+  createDirectus,
+  createItem,
+  deleteItem,
+  readItem,
+  readItems,
+  readSingleton,
+  rest,
+  staticToken,
+  updateItem,
+  updateSingleton,
+} from "@directus/sdk";
+
+export interface SiteSettings {
+  id: number;
+  about_image: string | null;
+  about_body: string | null;
+}
+
+export interface Testimonial {
+  id: number;
+  quote: string;
+  sort: number | null;
+  status: string;
+}
+
+export interface LegalPage {
+  id: number;
+  title: string;
+  slug: string;
+  content: string | null;
+  sort: number | null;
+  status: string;
+}
+
+export interface Sponsor {
+  id: number;
+  name: string;
+  photo: string;
+  website_url: string | null;
+  hex_size: "small" | "large";
+  sort: number | null;
+  status: string;
+}
+
+export interface Schema {
+  site_settings: SiteSettings;
+  testimonials: Testimonial[];
+  legal_pages: LegalPage[];
+  sponsors: Sponsor[];
+}
+
+import { directusUrl, getImageUrl } from "@/lib/directus-url";
+
+export { directusUrl, getImageUrl };
+
+const directusTimeoutMs = Number(process.env.DIRECTUS_TIMEOUT_MS) || 15_000;
+
+const restOptions = {
+  onRequest: (options: RequestInit) => ({
+    ...options,
+    signal: options.signal ?? AbortSignal.timeout(directusTimeoutMs),
+  }),
+};
+
+export const client = createDirectus<Schema>(directusUrl).with(rest(restOptions));
+
+export function getServerDirectus() {
+  const token = process.env.DIRECTUS_TOKEN;
+  if (!token) {
+    if (process.env.NODE_ENV === "development") {
+      console.warn(
+        "[directus] DIRECTUS_TOKEN is not set. Server CMS requests may fail.",
+      );
+    }
+    return createDirectus<Schema>(directusUrl).with(rest(restOptions));
+  }
+  return createDirectus<Schema>(directusUrl)
+    .with(staticToken(token))
+    .with(rest(restOptions));
+}
+
+export {
+  createItem,
+  deleteItem,
+  readItem,
+  readItems,
+  readSingleton,
+  updateItem,
+  updateSingleton,
+};

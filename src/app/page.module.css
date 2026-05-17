@@ -368,15 +368,15 @@
 }
 
 .testimonialGrid > .testimonialCard:nth-child(1) {
-  border: 2px solid #99ada8;
+  border: 2px solid var(--border-accent-green);
 }
 
 .testimonialGrid > .testimonialCard:nth-child(2) {
-  border: 2px solid #b2a83d;
+  border: 2px solid var(--border-accent-olive);
 }
 
 .testimonialGrid > .testimonialCard:nth-child(3) {
-  border: 2px solid var(--color-rose);
+  border: 2px solid var(--border-accent-rose);
 }
 
 .testimonialQuote {
@@ -415,19 +415,19 @@
 
 .testimonialGrid > .testimonialCard:nth-child(1) .testimonialQuote,
 .testimonialGrid > .testimonialCard:nth-child(1) .testimonialQuoteEnd {
-  color: #99ada8;
+  color: var(--border-accent-green);
   opacity: 1;
 }
 
 .testimonialGrid > .testimonialCard:nth-child(2) .testimonialQuote,
 .testimonialGrid > .testimonialCard:nth-child(2) .testimonialQuoteEnd {
-  color: #b2a83d;
+  color: var(--border-accent-olive);
   opacity: 1;
 }
 
 .testimonialGrid > .testimonialCard:nth-child(3) .testimonialQuote,
 .testimonialGrid > .testimonialCard:nth-child(3) .testimonialQuoteEnd {
-  color: var(--color-rose);
+  color: var(--border-accent-rose);
   opacity: 1;
 }
 

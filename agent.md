@@ -48,7 +48,7 @@ src/
     doe-mee/
     missie-visie/
     sponsoring-contact/ # Fiche + SponsoringForm + SupporterGoFundMe
-    icon.svg
+    # favicon: public/pictures/favicon.webp (geen PWA)
   components/
     Header.tsx          # client — nav
     Footer.tsx

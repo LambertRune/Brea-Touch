@@ -32,7 +32,7 @@ Defined in `:root` (`globals.css`). Use CSS variables — never hardcode brand h
 | `--color-brown` | `#b08471` | Links, primary gradient start |
 | `--color-sage` | `#a3b0ad` | Badge sage |
 | `--color-rose` | `#d8ad9b` | Badges, gradients, borders |
-| `--color-olive` | `#b2a952` | Testimonial card 2 border |
+| `--color-olive` | `#b2a952` | Badge / secondary olive (lighter than accent olive) |
 | `--color-dark-brown` | `#715b52` | Link hover |
 
 ### Semantic
@@ -56,17 +56,33 @@ linear-gradient(135deg, var(--color-brown), var(--color-rose));
 
 Used on: `.btn--primary`, `.stat-card__number`, `.divider`, CTA sections on home.
 
-### Fixed accents (not in `:root`)
+### Border accent tokens (`:root`)
 
-Use only where already established:
+Shared 2px border colors for **home verhalen**, **`/contact` info cards**, and **sponsor honeycomb** (`SponsorHoneycomb`). Prefer these variables — do not reintroduce the old blue accent (`#7ba3c9`).
 
-| Context | Hex |
-|---------|-----|
-| Home testimonial card 1 border & quotes | `#99ada8` |
-| Home testimonial card 2 border & quotes | `#b2a83d` (`--color-olive`) |
-| Home testimonial card 3 border & quotes | `var(--color-rose)` |
-| Doe-mee option card borders | `#99ada8`, `#b2a83d`, rose variants in `doe-mee/page.module.css` |
-| Sponsor taglines (unused in minimal page, styles exist) | `#c9a227`, `#5a8fb8`, `#d88fa0` |
+| Token | Hex | Typical use |
+|-------|-----|-------------|
+| `--border-accent-green` | `#99ada8` | Verhaal 1, contact e-mail, honeycomb cycle |
+| `--border-accent-olive` | `#b2a83d` | Verhaal 2, contact Instagram (goud/olijf — not blue) |
+| `--border-accent-rose` | `#d8ad9b` | Verhaal 3, contact TikTok |
+| `--border-accent-brown` | `#b08471` | Contact LinkedIn, honeycomb 4th in cycle |
+
+**Contact mapping** (`contact/page.module.css`): e-mail → green, Instagram → olive, TikTok → rose, LinkedIn → brown.
+
+**Honeycomb** (`SponsorHoneycomb.module.css`, `honeycomb-layout.ts`): borders cycle green → olive → rose → brown; white interior; sponsor name always visible, centered in the hex (dynamic `font-size` on small cells for long names).
+
+**Honeycomb geometry** (`honeycomb-layout.ts`, pointy-top):
+- `SMALL_HEX_EDGE` = 48px; `LARGE_HEX_EDGE` = 2×
+- Centerafstand gelijk: `r·√3` (+ gap); gemengd groot+klein: `R+r` (+ gap)
+- **Algoritme:** grote hexen eerst (random groei in 6 richtingen), daarna kleine op alle 6 zijden van elke grote + in zakken tussen twee grote
+- Seeded via sponsor-ids; overlap- en verbindingscheck op pixelcentra
+
+### Other fixed accents
+
+| Context | Notes |
+|---------|--------|
+| Doe-mee option card borders | Align with accent greens/olive/rose in `doe-mee/page.module.css` |
+| Sponsor taglines (legacy CSS) | `#c9a227`, `#5a8fb8`, `#d88fa0` — unused on current pages |
 
 ---
 
@@ -231,11 +247,13 @@ SDG section: horizontal scroll on small screens; card grid on desktop. Images in
 
 Three option cards (gift / share / sponsor). GoFundMe: `<a href="https://gofund.me/94dae2071">`. Social chips: `.socialBtn` — hover changes bg only, no lift.
 
+Sponsor honeycomb in dashed `.sponsorsPlaceholder` when CMS sponsors exist (`SponsorHoneycomb` with `embedded`). Small hexes: 48px edge; names centered and scaled to stay readable.
+
 ### Contact vs sponsoring
 
 | Route | Purpose |
 |-------|---------|
-| `/contact` | General contact form |
+| `/contact` | General contact form; left info cards use `--border-accent-*` (same palette as home verhalen) |
 | `/sponsoring-contact` | Tier fiche + sponsor form |
 | `/contact/sponsoring` | 308 redirect → `/sponsoring-contact` (`src/proxy.ts`) |
 
@@ -264,7 +282,7 @@ Respect `prefers-reduced-motion`: do not add motion-only information.
 | `/pictures/IMG_4693.webp` | Content photos |
 | `/pictures/Coming-soon.jpg` | Placeholder |
 | `/pictures/SDG3.png`, `SDG4.png`, `SDG5.png`, `SDG10.png` | Missie & visie |
-| `src/app/icon.svg` | App icon |
+| `public/pictures/favicon.webp` | Favicon (geen PWA / geen manifest) |
 
 Prefer WebP for photos. Keep alt text in Dutch, descriptive.
 

@@ -1,0 +1,174 @@
+.section {
+  padding: var(--space-4xl) 0;
+  background: var(--color-bg-alt);
+}
+
+.title {
+  margin-bottom: var(--space-xl);
+}
+
+.honeycomb {
+  position: relative;
+  margin: var(--space-3xl) auto 0;
+  max-width: 100%;
+}
+
+.honeycombEmbedded {
+  margin: 0 auto var(--space-lg);
+}
+
+.hex {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: inherit;
+  container-type: size;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+  box-sizing: border-box;
+  background-color: #ffffff;
+}
+
+.hex:hover,
+.hex:focus-visible {
+  transform: scale(1.04);
+  z-index: 2;
+  filter: drop-shadow(0 6px 16px rgba(73, 73, 73, 0.12));
+}
+
+.borderGreen {
+  background: var(--border-accent-green);
+}
+
+.borderOlive {
+  background: var(--border-accent-olive);
+}
+
+.borderRose {
+  background: var(--border-accent-rose);
+}
+
+.borderBrown {
+  background: var(--border-accent-brown);
+}
+
+.hexInner {
+  position: absolute;
+  inset: 2px;
+  background-color: #ffffff;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  overflow: hidden;
+  transition: background 0.5s ease;
+}
+
+/* Flex + max dimensions: volledige logo’s zichtbaar, witte letterboxing */
+.hexLogoWrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8% 10%;
+  background-color: transparent;
+  transition: opacity 0.2s ease;
+}
+
+.hexImage {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+  background-color: transparent;
+}
+
+.hexHoverOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12% 10%;
+  background-color: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.hexName {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-height: 100%;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+  color: var(--color-charcoal);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.hexSmall .hexName {
+  font-size: clamp(0.5rem, 18cqh, 0.72rem);
+}
+
+.hexLarge .hexName {
+  font-size: clamp(0.625rem, 14cqh, 0.95rem);
+}
+
+.hex:hover .hexHoverOverlay,
+.hex:focus-visible .hexHoverOverlay {
+  opacity: 1;
+}
+
+.hex:hover .hexLogoWrap,
+.hex:focus-visible .hexLogoWrap {
+  opacity: 0;
+}
+
+/* Touch: geen hover → naam altijd zichtbaar op de overlay */
+@media (hover: none) {
+  .hexHoverOverlay {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.92);
+  }
+
+  .hexLogoWrap {
+    opacity: 1;
+  }
+
+  .hexName {
+    position: absolute;
+    bottom: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 88%;
+    max-height: 38%;
+    font-size: clamp(0.45rem, 12cqh, 0.65rem);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2px 4px;
+    border-radius: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hex:hover,
+  .hex:focus-visible {
+    transform: none;
+  }
+
+  .hexHoverOverlay,
+  .hexLogoWrap {
+    transition: none;
+  }
+}

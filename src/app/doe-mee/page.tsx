@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SponsorHoneycomb } from "@/components/sponsors/SponsorHoneycomb";
+import { getPublishedSponsors } from "@/lib/cms";
+import { mapSponsorsToHoneycomb } from "@/lib/sponsors";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -8,7 +11,9 @@ export const metadata: Metadata = {
     "Doe mee met BréaTouch! Steun ons via een gift, vertel ons verhaal verder of word sponsor. Samen maken we het verschil in de strijd tegen borstkanker.",
 };
 
-export default function DoeMee() {
+export default async function DoeMee() {
+  const sponsors = mapSponsorsToHoneycomb(await getPublishedSponsors());
+
   return (
     <>
       {/* Page Header */}
@@ -205,6 +210,9 @@ export default function DoeMee() {
           <h2 style={{ marginTop: "var(--space-md)" }}>Onze sponsors</h2>
           <div className="divider divider--center" />
           <div className={styles.sponsorsPlaceholder}>
+            {sponsors.length > 0 && (
+              <SponsorHoneycomb sponsors={sponsors} embedded />
+            )}
             <p>
               Interesse om partner van BréaTouch te worden? Als sponsor maak je
               samen met ons zelfonderzoek toegankelijk voor iedereen. Op de

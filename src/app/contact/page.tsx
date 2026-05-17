@@ -56,7 +56,7 @@ export default function Contact() {
             {/* Contact Info */}
             <div className={styles.contactInfo}>
               <div className={styles.infoCards}>
-                <div className={`card ${styles.infoCard}`}>
+                <div className={`card ${styles.infoCard} ${styles.infoCardGreen}`}>
                   <div className={styles.infoIcon}>
                     <svg
                       width="24"
@@ -80,7 +80,7 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <div className={`card ${styles.infoCard}`}>
+                <div className={`card ${styles.infoCard} ${styles.infoCardOlive}`}>
                   <div className={styles.infoIcon}>
                     <svg
                       width="24"
@@ -109,7 +109,7 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <div className={`card ${styles.infoCard}`}>
+                <div className={`card ${styles.infoCard} ${styles.infoCardRose}`}>
                   <div className={styles.infoIcon}>
                     <svg
                       width="24"
@@ -132,7 +132,7 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <div className={`card ${styles.infoCard}`}>
+                <div className={`card ${styles.infoCard} ${styles.infoCardBrown}`}>
                   <div className={styles.infoIcon}>
                     <svg
                       width="24"

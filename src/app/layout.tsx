@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { plusJakartaSans, headingFont, leagueGothic } from "./fonts";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { SiteChrome } from "@/components/SiteChrome";
 import ScrollToTop from "@/components/ScrollToTop";
 import "./globals.css";
 
@@ -28,6 +29,11 @@ export const metadata: Metadata = {
     type: "website",
     locale: "nl_BE",
   },
+  manifest: null,
+  appleWebApp: false,
+  icons: {
+    icon: "/pictures/favicon.webp",
+  },
 };
 
 export default function RootLayout({
@@ -42,9 +48,9 @@ export default function RootLayout({
     >
       <body>
         <ScrollToTop />
-        <Header />
-        <main style={{ paddingTop: "72px" }}>{children}</main>
-        <Footer />
+        <SiteChrome header={<Header />} footer={<Footer />}>
+          {children}
+        </SiteChrome>
       </body>
     </html>
   );

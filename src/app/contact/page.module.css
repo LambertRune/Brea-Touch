@@ -36,11 +36,49 @@
   gap: var(--space-md);
 }
 
+/* Zelfde kleuren als home verhalen (testimonial cards) */
 .infoCard {
   display: flex;
   align-items: center;
   gap: var(--space-lg);
   padding: var(--space-xl);
+  border: 2px solid var(--color-border-light);
+}
+
+.infoCardGreen {
+  border-color: var(--border-accent-green);
+}
+
+.infoCardGreen .infoIcon {
+  background: rgba(153, 173, 168, 0.2);
+  color: #5c6b68;
+}
+
+.infoCardOlive {
+  border-color: var(--border-accent-olive);
+}
+
+.infoCardOlive .infoIcon {
+  background: rgba(178, 168, 61, 0.15);
+  color: #8a8433;
+}
+
+.infoCardRose {
+  border-color: var(--border-accent-rose);
+}
+
+.infoCardRose .infoIcon {
+  background: rgba(216, 173, 155, 0.2);
+  color: #9a6f5c;
+}
+
+.infoCardBrown {
+  border-color: var(--border-accent-brown);
+}
+
+.infoCardBrown .infoIcon {
+  background: rgba(176, 132, 113, 0.15);
+  color: var(--color-brown);
 }
 
 .infoIcon {
@@ -50,8 +88,6 @@
   width: 48px;
   height: 48px;
   border-radius: var(--radius-md);
-  background: rgba(176, 132, 113, 0.1);
-  color: var(--color-brown);
   flex-shrink: 0;
 }
 
