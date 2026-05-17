@@ -47,11 +47,13 @@
   background-color: #ffffff;
 }
 
-.hex:hover,
-.hex:focus-visible {
-  transform: scale(1.04);
-  z-index: 2;
-  filter: drop-shadow(0 6px 16px rgba(73, 73, 73, 0.12));
+@media (hover: hover) {
+  .hex:hover,
+  .hex:focus-visible {
+    transform: scale(1.04);
+    z-index: 2;
+    filter: drop-shadow(0 6px 16px rgba(73, 73, 73, 0.12));
+  }
 }
 
 .borderGreen {
@@ -139,18 +141,20 @@
   font-size: clamp(0.625rem, 14cqh, 0.95rem);
 }
 
-.hex:hover .hexHoverOverlay,
-.hex:focus-visible .hexHoverOverlay {
-  opacity: 1;
+@media (hover: hover) {
+  .hex:hover .hexHoverOverlay,
+  .hex:focus-visible .hexHoverOverlay {
+    opacity: 1;
+  }
+
+  .hex:hover .hexLogoWrap,
+  .hex:focus-visible .hexLogoWrap {
+    opacity: 0;
+  }
 }
 
-.hex:hover .hexLogoWrap,
-.hex:focus-visible .hexLogoWrap {
-  opacity: 0;
-}
-
-/* Touch: geen hover → naam altijd zichtbaar op de overlay */
-@media (hover: none) {
+/* Touch tablets/desktop: naam zichtbaar zonder hover */
+@media (hover: none) and (min-width: 769px) {
   .hexHoverOverlay {
     opacity: 1;
     background: rgba(255, 255, 255, 0.92);
@@ -183,26 +187,43 @@
     margin-top: var(--space-md);
   }
 
-  .hex:hover,
-  .hex:focus-visible {
-    transform: none;
+  .hex {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 
-  /* Mobiel: alleen logo, geen sponsornaam */
+  /* Mobiel: alleen logo, één tik = directe link (geen focus-hover titel) */
   .hexHoverOverlay {
-    display: none;
+    display: none !important;
   }
 
   .hexLogoWrap {
-    opacity: 1;
+    opacity: 1 !important;
     padding: 5% 8%;
+  }
+
+  .hex:hover .hexHoverOverlay,
+  .hex:focus .hexHoverOverlay,
+  .hex:focus-visible .hexHoverOverlay,
+  .hex:active .hexHoverOverlay {
+    display: none !important;
+    opacity: 0 !important;
+  }
+
+  .hex:hover .hexLogoWrap,
+  .hex:focus .hexLogoWrap,
+  .hex:focus-visible .hexLogoWrap,
+  .hex:active .hexLogoWrap {
+    opacity: 1 !important;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hex:hover,
-  .hex:focus-visible {
-    transform: none;
+  @media (hover: hover) {
+    .hex:hover,
+    .hex:focus-visible {
+      transform: none;
+    }
   }
 
   .hexHoverOverlay,
