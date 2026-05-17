@@ -11,9 +11,12 @@ import {
 export { getImageUrl } from "@/lib/directus-url";
 
 /** ISR for all CMS-driven server components (layout footer, pages). */
-export const CMS_REVALIDATE_SECONDS = 60;
-
 const publishedOnly = { status: { _eq: "published" as const } };
+
+function logCmsError(collection: string, e: unknown) {
+  const message = e instanceof Error ? e.message : String(e);
+  console.error(`[CMS] ${collection}:`, message);
+}
 
 function asList<T>(value: unknown): T[] {
   return Array.isArray(value) ? value : [];
@@ -24,7 +27,7 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
     const directus = getServerDirectus();
     return await directus.request(readSingleton("site_settings"));
   } catch (e) {
-    console.error("[CMS] site_settings:", e);
+    logCmsError("site_settings", e);
     return null;
   }
 }
@@ -41,7 +44,7 @@ export async function getPublishedTestimonials(): Promise<Testimonial[]> {
     );
     return asList<Testimonial>(items);
   } catch (e) {
-    console.error("[CMS] testimonials:", e);
+    logCmsError("testimonials", e);
     return [];
   }
 }
@@ -57,7 +60,7 @@ export async function getPublishedLegalPages(): Promise<LegalPage[]> {
     );
     return asList<LegalPage>(items);
   } catch (e) {
-    console.error("[CMS] legal_pages:", e);
+    logCmsError("legal_pages", e);
     return [];
   }
 }
@@ -76,7 +79,7 @@ export async function getLegalPageBySlug(
     const list = asList<LegalPage>(items);
     return list[0] ?? null;
   } catch (e) {
-    console.error("[CMS] legal_page:", e);
+    logCmsError("legal_page", e);
     return null;
   }
 }
@@ -92,7 +95,7 @@ export async function getPublishedSponsors(): Promise<Sponsor[]> {
     );
     return asList<Sponsor>(items);
   } catch (e) {
-    console.error("[CMS] sponsors:", e);
+    logCmsError("sponsors", e);
     return [];
   }
 }

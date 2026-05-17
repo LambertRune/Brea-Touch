@@ -12,9 +12,7 @@ RUN pnpm install --frozen-lockfile
 
 FROM base AS builder
 WORKDIR /app
-ARG DIRECTUS_TOKEN
 ARG NEXT_PUBLIC_DIRECTUS_URL
-ENV DIRECTUS_TOKEN=$DIRECTUS_TOKEN
 ENV NEXT_PUBLIC_DIRECTUS_URL=$NEXT_PUBLIC_DIRECTUS_URL
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -22,12 +20,9 @@ RUN pnpm build
 
 FROM base AS runner
 WORKDIR /app
-ARG DIRECTUS_TOKEN
-ARG NEXT_PUBLIC_DIRECTUS_URL
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV DIRECTUS_TOKEN=$DIRECTUS_TOKEN
-ENV NEXT_PUBLIC_DIRECTUS_URL=$NEXT_PUBLIC_DIRECTUS_URL
+# DIRECTUS_TOKEN + NEXT_PUBLIC_DIRECTUS_URL: set at runtime in Dokploy (not build-time)
 
 RUN addgroup --system --gid 1001 nodejs \
   && adduser --system --uid 1001 nextjs

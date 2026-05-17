@@ -59,6 +59,7 @@ const directusTimeoutMs = Number(process.env.DIRECTUS_TIMEOUT_MS) || 15_000;
 const restOptions = {
   onRequest: (options: RequestInit) => ({
     ...options,
+    cache: "no-store" as RequestCache,
     signal: options.signal ?? AbortSignal.timeout(directusTimeoutMs),
   }),
 };

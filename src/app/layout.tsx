@@ -6,8 +6,8 @@ import { SiteChrome } from "@/components/SiteChrome";
 import ScrollToTop from "@/components/ScrollToTop";
 import "./globals.css";
 
-/** ISR for CMS footer + pages (literal required by Next segment config). */
-export const revalidate = 60;
+/** Altijd runtime CMS (Docker build heeft vaak geen DIRECTUS_TOKEN). */
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: {
