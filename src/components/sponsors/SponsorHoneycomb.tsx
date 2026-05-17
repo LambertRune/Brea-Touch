@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   buildSoftHexGradient,
   readDominantColorsFromImage,
@@ -34,16 +34,19 @@ export function SponsorHoneycomb({
 
   if (placed.length === 0) return null;
 
+  const layoutWidth = Math.max(width, 200);
+  const layoutHeight = Math.max(height, 120);
+
   const grid = (
-    <div
-      className={`${styles.honeycomb}${embedded ? ` ${styles.honeycombEmbedded}` : ""}`}
-      style={{ width: Math.max(width, 200), height: Math.max(height, 120) }}
-      role="list"
+    <ScaledHoneycomb
+      layoutWidth={layoutWidth}
+      layoutHeight={layoutHeight}
+      embedded={embedded}
     >
       {placed.map((item) => (
         <HexCell key={item.sponsor.id} item={item} />
       ))}
-    </div>
+    </ScaledHoneycomb>
   );
 
   if (embedded) {
@@ -59,6 +62,61 @@ export function SponsorHoneycomb({
         {grid}
       </div>
     </section>
+  );
+}
+
+function ScaledHoneycomb({
+  layoutWidth,
+  layoutHeight,
+  embedded,
+  children,
+}: {
+  layoutWidth: number;
+  layoutHeight: number;
+  embedded: boolean;
+  children: ReactNode;
+}) {
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const available = el.clientWidth;
+      if (available <= 0) return;
+      setScale(Math.min(1, available / layoutWidth));
+    };
+
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [layoutWidth]);
+
+  const scaledW = layoutWidth * scale;
+  const scaledH = layoutHeight * scale;
+
+  return (
+    <div ref={viewportRef} className={styles.honeycombViewport}>
+      <div
+        className={styles.honeycombSizer}
+        style={{ width: scaledW, height: scaledH }}
+      >
+        <div
+          className={`${styles.honeycomb}${embedded ? ` ${styles.honeycombEmbedded}` : ""}`}
+          style={{
+            width: layoutWidth,
+            height: layoutHeight,
+            transform: `scale(${scale})`,
+          }}
+          role="list"
+        >
+          {children}
+        </div>
+      </div>
+    </div>
   );
 }
 

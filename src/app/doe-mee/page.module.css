@@ -241,7 +241,7 @@
 .sponsorsPlaceholder:has([role="list"]) {
   max-width: min(100%, 900px);
   padding: var(--space-2xl) var(--space-md);
-  overflow: visible;
+  overflow: hidden;
 }
 
 .sponsorsPlaceholder p {
@@ -254,6 +254,17 @@
 }
 
 /* Responsive */
+@media (max-width: 768px) {
+  .sponsorsPlaceholder:has([role="list"]) {
+    max-width: 100%;
+    padding: var(--space-lg) var(--space-xs);
+  }
+
+  .sponsorsPlaceholder:has([role="list"]) p {
+    margin-top: var(--space-xl);
+  }
+}
+
 @media (max-width: 1024px) {
   .options {
     grid-template-columns: 1fr;
