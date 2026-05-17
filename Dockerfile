@@ -1,29 +1,28 @@
-FROM node:20-alpine AS base
+# Node.js 22 LTS (nodejs.org) + pnpm 11 (pnpm.io, requires Node ≥22.13)
+FROM node:22-alpine AS base
 
-# Match lockfile v9 — pnpm@latest (v11+) needs Node 22+ and breaks on Node 20
-RUN corepack enable && corepack prepare pnpm@9.15.9 --activate
+RUN apk add --no-cache libc6-compat libatomic \
+  && corepack enable \
+  && corepack prepare pnpm@11.1.2 --activate
 
-# Dependencies
 FROM base AS deps
 WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile
 
-# Build
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN pnpm build
 
-# Production
 FROM base AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+RUN addgroup --system --gid 1001 nodejs \
+  && adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
