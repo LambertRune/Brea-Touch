@@ -157,9 +157,10 @@
 
   .navSocials {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
-    gap: var(--space-sm);
+    gap: var(--space-lg);
     margin-top: auto;
     padding-top: var(--space-2xl);
     padding-bottom: calc(var(--space-3xl) + env(safe-area-inset-bottom, 0px));
@@ -168,17 +169,22 @@
   }
 
   .navSocialLink {
-    font-size: 1rem;
-    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
     color: var(--color-brown);
     text-decoration: none;
-    padding: 10px 24px;
     border-radius: var(--radius-full);
-    transition: background-color var(--transition-fast);
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast);
   }
 
   .navSocialLink:hover {
-    background: rgba(176, 132, 113, 0.1);
+    background: rgba(176, 132, 113, 0.12);
+    color: var(--color-charcoal);
   }
 
   .headerInner {

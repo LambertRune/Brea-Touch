@@ -1,4 +1,6 @@
 /** Single source of truth — update agent.md “Social media” when changing URLs. */
+export type SocialNetwork = "instagram" | "tiktok" | "linkedin";
+
 export const SOCIAL_LINKS = {
   instagram: {
     href: "https://www.instagram.com/breatouch",
@@ -20,8 +22,13 @@ export const SOCIAL_LINKS = {
   },
 } as const;
 
-export const SOCIAL_LINK_LIST = [
-  SOCIAL_LINKS.instagram,
-  SOCIAL_LINKS.tiktok,
-  SOCIAL_LINKS.linkedin,
-] as const;
+export const SOCIAL_LINK_LIST: {
+  network: SocialNetwork;
+  href: string;
+  label: string;
+  ariaLabel: string;
+}[] = [
+  { network: "instagram", ...SOCIAL_LINKS.instagram },
+  { network: "tiktok", ...SOCIAL_LINKS.tiktok },
+  { network: "linkedin", ...SOCIAL_LINKS.linkedin },
+];

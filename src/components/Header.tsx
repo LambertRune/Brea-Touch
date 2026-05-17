@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { SOCIAL_LINK_LIST } from "@/lib/socialLinks";
+import { SocialIcon } from "@/components/SocialIcon";
 import styles from "./Header.module.css";
 
 type NavItem = {
@@ -101,7 +102,7 @@ export default function Header() {
           <div className={styles.navSocials} aria-label="Volg ons">
             {SOCIAL_LINK_LIST.map((social) => (
               <a
-                key={social.href}
+                key={social.network}
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -109,7 +110,7 @@ export default function Header() {
                 aria-label={social.ariaLabel}
                 onClick={() => setMenuOpen(false)}
               >
-                {social.label}
+                <SocialIcon network={social.network} size={24} />
               </a>
             ))}
           </div>
