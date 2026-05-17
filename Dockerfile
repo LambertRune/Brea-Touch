@@ -1,7 +1,7 @@
 FROM node:20-alpine AS base
 
-# Install pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+# Match lockfile v9 — pnpm@latest (v11+) needs Node 22+ and breaks on Node 20
+RUN corepack enable && corepack prepare pnpm@9.15.9 --activate
 
 # Dependencies
 FROM base AS deps
