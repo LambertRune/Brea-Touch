@@ -175,6 +175,10 @@
 }
 
 @media (max-width: 768px) {
+  .honeycombViewport {
+    overflow: hidden;
+  }
+
   .honeycombEmbedded {
     margin-top: var(--space-md);
   }
@@ -182,6 +186,16 @@
   .hex:hover,
   .hex:focus-visible {
     transform: none;
+  }
+
+  /* Mobiel: alleen logo, geen sponsornaam */
+  .hexHoverOverlay {
+    display: none;
+  }
+
+  .hexLogoWrap {
+    opacity: 1;
+    padding: 5% 8%;
   }
 }
 

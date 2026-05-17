@@ -86,7 +86,9 @@ function ScaledHoneycomb({
     const update = () => {
       const available = el.clientWidth;
       if (available <= 0) return;
-      setScale(Math.min(1, available / layoutWidth));
+      const isMobile = window.matchMedia("(max-width: 768px)").matches;
+      const inset = isMobile ? 16 : 0;
+      setScale(Math.min(1, Math.max(0.3, (available - inset) / layoutWidth)));
     };
 
     update();
