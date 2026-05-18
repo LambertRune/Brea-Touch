@@ -8,9 +8,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const upstream = await fetch(url, {
-      next: { revalidate: 86_400 },
-    });
+    const upstream = await fetch(url, { cache: "no-store" });
     if (!upstream.ok) {
       return NextResponse.json(
         { error: "Upstream fetch failed" },
@@ -25,7 +23,7 @@ export async function GET(req: NextRequest) {
     return new NextResponse(body, {
       headers: {
         "Content-Type": contentType,
-        "Cache-Control": "public, max-age=86400, stale-while-revalidate=604800",
+        "Cache-Control": "no-store, max-age=0, must-revalidate",
       },
     });
   } catch {

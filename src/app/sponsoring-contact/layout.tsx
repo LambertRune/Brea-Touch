@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Sponsorovereenkomst",
   description:
-    "Sponsorovereenkomst BréaTouch: pakketten Supporter, Brons, Zilver en goud, voordelen volgens fiche en aanvraagformulier.",
+    "Sponsorovereenkomst BréaTouch: pakketten Supporter, Brons, Zilver en Goud, voordelen volgens fiche en aanvraagformulier.",
 };
 
 export default function SponsoringContactLayout({

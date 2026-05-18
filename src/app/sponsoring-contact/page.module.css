@@ -92,10 +92,6 @@
   gap: 5px;
 }
 
-.tierCard h2.tierTitleGoud {
-  text-transform: lowercase;
-}
-
 .tierCard h2 {
   margin: 0 0 var(--space-sm);
   text-transform: uppercase;

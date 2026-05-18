@@ -5,14 +5,26 @@ const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
   async headers() {
-    const entries = getSecurityHeaderEntries().map(({ key, value }) => ({
+    const security = getSecurityHeaderEntries().map(({ key, value }) => ({
       key,
       value,
     }));
+    const noStore = {
+      key: "Cache-Control",
+      value: "no-store, max-age=0, must-revalidate",
+    };
     return [
       {
-        source: "/:path*",
-        headers: entries,
+        source: "/:path((?!_next/static|_next/image|pictures/).*)",
+        headers: [...security, noStore],
+      },
+      {
+        source: "/_next/static/:path*",
+        headers: security,
+      },
+      {
+        source: "/pictures/:path*",
+        headers: security,
       },
     ];
   },

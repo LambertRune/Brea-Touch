@@ -43,7 +43,7 @@ const TIERS = [
     Icon: TierIconDiamondsPair,
   },
   {
-    title: "GOUD",
+    title: "Goud",
     price: "Vanaf €500",
     className: styles.tierGoud,
     formValue: "Goud",
@@ -85,13 +85,7 @@ export default function SponsorovereenkomstPage() {
                     <div className={styles.tierIcon} aria-hidden="true">
                       <Icon />
                     </div>
-                    <h2
-                      className={
-                        tier.title === "GOUD" ? styles.tierTitleGoud : undefined
-                      }
-                    >
-                      {tier.title}
-                    </h2>
+                    <h2>{tier.title}</h2>
                     <p className={styles.tierPrice}>{tier.price}</p>
                     <p className={styles.tierLabel}>Wat krijg je?</p>
                     <ul className={styles.tierList}>
