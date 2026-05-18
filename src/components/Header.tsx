@@ -53,10 +53,10 @@ export default function Header() {
       <div className={styles.headerInner}>
         <Link href="/" className={styles.logo} aria-label="BréaTouch home">
           <Image
-            src="/pictures/LOGO.svg"
-            alt="BréaTouch Logo"
-            width={500}
-            height={200}
+            src="/pictures/logo.webp"
+            alt="BréaTouch"
+            width={1100}
+            height={600}
             className={styles.logoImage}
             priority
             unoptimized

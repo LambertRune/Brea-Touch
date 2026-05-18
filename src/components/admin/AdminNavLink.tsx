@@ -1,13 +1,18 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { ComponentProps } from "react";
-import { useAdminNavigation } from "@/components/admin/AdminLoadingProvider";
+import { useContext, type ComponentProps } from "react";
+import { AdminLoadingContext } from "@/components/admin/AdminLoadingProvider";
 
-type AdminNavLinkProps = ComponentProps<"a"> & {
+type AdminNavLinkProps = ComponentProps<typeof Link> & {
   href: string;
 };
 
+/**
+ * Client-navigatie met loading-state in sidebar (binnen AdminLoadingProvider).
+ * Buiten de provider (bv. dashboard-children van een server page) valt terug op <Link>.
+ */
 export function AdminNavLink({
   href,
   onClick,
@@ -15,10 +20,20 @@ export function AdminNavLink({
   ...props
 }: AdminNavLinkProps) {
   const pathname = usePathname();
-  const { navigate } = useAdminNavigation();
+  const ctx = useContext(AdminLoadingContext);
+
+  if (!ctx) {
+    return (
+      <Link href={href} onClick={onClick} {...props}>
+        {children}
+      </Link>
+    );
+  }
+
+  const { navigate } = ctx;
 
   return (
-    <a
+    <Link
       href={href}
       {...props}
       onClick={(e) => {
@@ -30,6 +45,6 @@ export function AdminNavLink({
       }}
     >
       {children}
-    </a>
+    </Link>
   );
 }

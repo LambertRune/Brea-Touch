@@ -15,7 +15,8 @@ type AdminLoadingContextValue = {
   isNavigating: boolean;
 };
 
-const AdminLoadingContext = createContext<AdminLoadingContextValue | null>(null);
+export const AdminLoadingContext =
+  createContext<AdminLoadingContextValue | null>(null);
 
 export function AdminLoadingProvider({ children }: { children: ReactNode }) {
   const router = useRouter();

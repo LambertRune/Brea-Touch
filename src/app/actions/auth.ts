@@ -2,6 +2,11 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import {
+  assertAdminLoginAllowed,
+  clearAdminLoginFailures,
+  recordAdminLoginFailure,
+} from "@/lib/admin-login-rate-limit";
 import { directusUrl } from "@/lib/directus-url";
 import { canAccessAdminPanel, clearAuthCookies, validateToken } from "@/lib/auth";
 
@@ -14,6 +19,11 @@ export async function loginAction(_prev: unknown, formData: FormData) {
     return { error: "E-mail en wachtwoord zijn verplicht." };
   }
 
+  const rateLimit = await assertAdminLoginAllowed();
+  if (!rateLimit.ok) {
+    return { error: rateLimit.message };
+  }
+
   try {
     const res = await fetch(`${directusUrl}/auth/login`, {
       method: "POST",
@@ -23,6 +33,7 @@ export async function loginAction(_prev: unknown, formData: FormData) {
     const data = await res.json();
 
     if (!res.ok) {
+      await recordAdminLoginFailure();
       return {
         error:
           data.errors?.[0]?.message ||
@@ -52,11 +63,14 @@ export async function loginAction(_prev: unknown, formData: FormData) {
     const user = await validateToken(access_token);
     if (!user || !(await canAccessAdminPanel(access_token, user))) {
       await clearAuthCookies();
+      await recordAdminLoginFailure();
       return {
         error:
-          "Geen toegang tot het beheerpaneel. Je Directus-rol moet app-toegang hebben.",
+          "Geen toegang tot het beheerpaneel. Neem contact op met de beheerder.",
       };
     }
+
+    await clearAdminLoginFailures();
   } catch (e) {
     console.error("[loginAction]", e);
     return { error: "Er ging iets mis. Probeer het later opnieuw." };

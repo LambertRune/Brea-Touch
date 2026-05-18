@@ -11,6 +11,7 @@ import { AdminLoadingGate } from "@/components/admin/AdminLoadingGate";
 import { AdminSortableList } from "@/components/admin/AdminSortableList";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import type { Testimonial } from "@/lib/directus";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 export function VerhalenManager({ items }: { items: Testimonial[] }) {
   const router = useRouter();
@@ -110,7 +111,11 @@ export function VerhalenManager({ items }: { items: Testimonial[] }) {
             renderItem={(item) => (
               <>
                 <div>
-                  <div dangerouslySetInnerHTML={{ __html: item.quote }} />
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: sanitizeHtml(item.quote),
+                    }}
+                  />
                 </div>
                 <div className="admin-actions" style={{ marginTop: 0 }}>
                   <button

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { COOKIE_CONFIG, PROTECTED_ROUTES } from "@/lib/constants";
 import { canAccessAdminPanel, getRoleId, validateToken } from "@/lib/auth";
+import { applySecurityHeaders } from "@/lib/security-headers";
 
 const directusUrl =
   process.env.NEXT_PUBLIC_DIRECTUS_URL || "https://dbbreatouch.phiosk.be";
@@ -22,9 +23,13 @@ async function tryRefreshToken(refreshToken: string) {
   }
 }
 
+function secure(response: NextResponse): NextResponse {
+  return applySecurityHeaders(response);
+}
+
 function createLogoutRedirect(request: NextRequest): NextResponse {
   const loginUrl = new URL("/admin/login", request.url);
-  const response = NextResponse.redirect(loginUrl);
+  const response = secure(NextResponse.redirect(loginUrl));
   response.cookies.delete(COOKIE_CONFIG.ACCESS_TOKEN);
   response.cookies.delete(COOKIE_CONFIG.REFRESH_TOKEN);
   return response;
@@ -39,7 +44,7 @@ export async function proxy(request: NextRequest) {
   if (pathname === "/contact/sponsoring") {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = "/sponsoring-contact";
-    return NextResponse.redirect(redirectUrl, 308);
+    return secure(NextResponse.redirect(redirectUrl, 308));
   }
 
   let token = request.cookies.get(COOKIE_CONFIG.ACCESS_TOKEN)?.value;
@@ -90,11 +95,13 @@ export async function proxy(request: NextRequest) {
 
     if (!token) {
       if (isAdminApi) {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        return secure(
+          NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
+        );
       }
       const loginUrl = new URL("/admin/login", request.url);
       loginUrl.searchParams.set("returnUrl", pathname);
-      return NextResponse.redirect(loginUrl);
+      return secure(NextResponse.redirect(loginUrl));
     }
 
     let user = await validateToken(token);
@@ -109,7 +116,9 @@ export async function proxy(request: NextRequest) {
 
     if (!user || user.status !== "active" || !token) {
       if (isAdminApi) {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        return secure(
+          NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
+        );
       }
       return createLogoutRedirect(request);
     }
@@ -117,10 +126,12 @@ export async function proxy(request: NextRequest) {
     const canAccess = await canAccessAdminPanel(token, user);
     if (!canAccess) {
       if (isAdminApi) {
-        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        return secure(
+          NextResponse.json({ error: "Forbidden" }, { status: 403 }),
+        );
       }
       return applyRefreshedCookies(
-        NextResponse.redirect(new URL("/", request.url)),
+        secure(NextResponse.redirect(new URL("/", request.url))),
       );
     }
 
@@ -134,13 +145,13 @@ export async function proxy(request: NextRequest) {
     const user = await validateToken(token);
     if (user && (await canAccessAdminPanel(token, user))) {
       return applyRefreshedCookies(
-        NextResponse.redirect(new URL("/admin", request.url)),
+        secure(NextResponse.redirect(new URL("/admin", request.url))),
       );
     }
   }
 
   return applyRefreshedCookies(
-    NextResponse.next({ request: { headers: requestHeaders } }),
+    secure(NextResponse.next({ request: { headers: requestHeaders } })),
   );
 }
 

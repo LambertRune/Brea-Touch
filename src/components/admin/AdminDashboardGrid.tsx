@@ -1,6 +1,6 @@
 "use client";
 
-import { AdminNavLink } from "@/components/admin/AdminNavLink";
+import Link from "next/link";
 
 const links = [
   {
@@ -29,10 +29,10 @@ export function AdminDashboardGrid() {
   return (
     <div className="admin-dash-grid">
       {links.map((item) => (
-        <AdminNavLink key={item.href} href={item.href} className="card admin-dash-card">
+        <Link key={item.href} href={item.href} className="card admin-dash-card">
           <h3>{item.title}</h3>
           <p>{item.description}</p>
-        </AdminNavLink>
+        </Link>
       ))}
     </div>
   );
