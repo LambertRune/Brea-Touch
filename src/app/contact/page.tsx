@@ -9,6 +9,7 @@ export default function Contact() {
   const [formState, setFormState] = useState<
     "idle" | "sending" | "sent" | "error"
   >("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,6 +20,7 @@ export default function Contact() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setFormState("sending");
+    setErrorMessage(null);
 
     try {
       const result = await sendEmailAction(formData);
@@ -27,11 +29,17 @@ export default function Contact() {
         setFormState("sent");
         setFormData({ name: "", email: "", subject: "", message: "" });
       } else {
-        console.error("Failed to send email:", result.error);
+        setErrorMessage(
+          result.error ??
+            "Er is iets misgegaan. Probeer het opnieuw of stuur een e-mail naar breatouch@outlook.com.",
+        );
         setFormState("error");
       }
     } catch (err) {
       console.error("Error in handleSubmit:", err);
+      setErrorMessage(
+        "Er is iets misgegaan. Probeer het opnieuw of stuur een e-mail naar breatouch@outlook.com.",
+      );
       setFormState("error");
     }
   };
@@ -261,11 +269,8 @@ export default function Contact() {
                       />
                     </div>
 
-                    {formState === "error" && (
-                      <div className={styles.errorMessage}>
-                        Er is iets misgegaan. Probeer het opnieuw of stuur een
-                        e-mail naar breatouch@outlook.com.
-                      </div>
+                    {formState === "error" && errorMessage && (
+                      <div className={styles.errorMessage}>{errorMessage}</div>
                     )}
 
                     <button

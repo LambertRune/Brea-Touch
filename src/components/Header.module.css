@@ -51,6 +51,17 @@
   gap: var(--space-xs);
 }
 
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+/* Socials: alleen in mobiel hamburgermenu (onderaan) */
+.navSocials {
+  display: none;
+}
+
 .navLink {
   display: flex;
   align-items: center;
@@ -138,11 +149,21 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    gap: var(--space-sm);
+    gap: 0;
     padding-top: 96px;
     opacity: 0;
     visibility: hidden;
     transition: all var(--transition-base);
+  }
+
+  .navLinks {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    width: 100%;
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: var(--space-md);
   }
 
   .navOpen {
@@ -190,8 +211,4 @@
   .headerInner {
     padding: 0 var(--space-lg);
   }
-}
-
-.navSocials {
-  display: none;
 }

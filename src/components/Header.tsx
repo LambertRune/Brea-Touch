@@ -67,38 +67,40 @@ export default function Header() {
           className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`}
           id="main-navigation"
         >
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`${styles.navLink} ${
-                pathname === item.href ? styles.navLinkActive : ""
-              }`}
-              onClick={() => setMenuOpen(false)}
-              {...(item.external
-                ? { target: "_blank", rel: "noopener noreferrer" }
-                : {})}
-            >
-              {item.label}
-              {item.external && (
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                  className={styles.externalIcon}
-                >
-                  <path
-                    d="M3.5 1H11V8.5M11 1L1 11"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              )}
-            </Link>
-          ))}
+          <div className={styles.navLinks}>
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`${styles.navLink} ${
+                  pathname === item.href ? styles.navLinkActive : ""
+                }`}
+                onClick={() => setMenuOpen(false)}
+                {...(item.external
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+              >
+                {item.label}
+                {item.external && (
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    className={styles.externalIcon}
+                  >
+                    <path
+                      d="M3.5 1H11V8.5M11 1L1 11"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
+              </Link>
+            ))}
+          </div>
           <div className={styles.navSocials} aria-label="Volg ons">
             {SOCIAL_LINK_LIST.map((social) => (
               <a

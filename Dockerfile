@@ -25,7 +25,9 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # DIRECTUS_TOKEN + NEXT_PUBLIC_DIRECTUS_URL: set at runtime in Dokploy (not build-time)
 
 RUN addgroup --system --gid 1001 nodejs \
-  && adduser --system --uid 1001 nextjs
+  && adduser --system --uid 1001 nextjs \
+  && mkdir -p /app/.data \
+  && chown nextjs:nodejs /app/.data
 
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./

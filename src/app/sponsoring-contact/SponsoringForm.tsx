@@ -12,6 +12,7 @@ export default function SponsoringForm() {
   const [formState, setFormState] = useState<
     "idle" | "sending" | "sent" | "error"
   >("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     company: "",
@@ -38,6 +39,7 @@ export default function SponsoringForm() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setFormState("sending");
+    setErrorMessage(null);
 
     const tierLine = formData.tier
       ? `Gewenst pakket: ${formData.tier}\n`
@@ -65,9 +67,16 @@ export default function SponsoringForm() {
           message: "",
         });
       } else {
+        setErrorMessage(
+          result.error ??
+            "Verzenden mislukt. Probeer opnieuw of mail naar breatouch@outlook.com.",
+        );
         setFormState("error");
       }
     } catch {
+      setErrorMessage(
+        "Verzenden mislukt. Probeer opnieuw of mail naar breatouch@outlook.com.",
+      );
       setFormState("error");
     }
   };
@@ -184,12 +193,8 @@ export default function SponsoringForm() {
               />
             </div>
 
-            {formState === "error" && (
-              <div className={styles.errorMessage}>
-                Verzenden mislukt. Probeer opnieuw of mail naar{" "}
-                <a href="mailto:breatouch@outlook.com">breatouch@outlook.com</a>
-                .
-              </div>
+            {formState === "error" && errorMessage && (
+              <div className={styles.errorMessage}>{errorMessage}</div>
             )}
 
             <button
