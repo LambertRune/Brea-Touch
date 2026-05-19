@@ -1,8 +1,12 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import { sendEmailAction } from "@/app/actions/sendEmail";
+import TurnstileWidget, {
+  type TurnstileWidgetHandle,
+} from "@/components/TurnstileWidget";
+import { TURNSTILE_MISSING_MESSAGE } from "@/lib/turnstile-messages";
 import styles from "./page.module.css";
 
 const TIER_OPTIONS = ["Brons", "Zilver", "Goud"] as const;
@@ -20,6 +24,8 @@ export default function SponsoringForm() {
     tier: "",
     message: "",
   });
+  const [captchaReady, setCaptchaReady] = useState(false);
+  const turnstileRef = useRef<TurnstileWidgetHandle>(null);
 
   useEffect(() => {
     const tierParam = searchParams.get("tier");
@@ -38,8 +44,16 @@ export default function SponsoringForm() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setFormState("sending");
     setErrorMessage(null);
+
+    const turnstileToken = turnstileRef.current?.getToken();
+    if (!turnstileToken) {
+      setErrorMessage(TURNSTILE_MISSING_MESSAGE);
+      setFormState("error");
+      return;
+    }
+
+    setFormState("sending");
 
     const tierLine = formData.tier
       ? `Gewenst pakket: ${formData.tier}\n`
@@ -55,6 +69,7 @@ export default function SponsoringForm() {
         email: formData.email,
         subject: "sponsoring",
         message: composedMessage,
+        turnstileToken,
       });
 
       if (result.success) {
@@ -66,18 +81,24 @@ export default function SponsoringForm() {
           tier: "",
           message: "",
         });
+        turnstileRef.current?.reset();
+        setCaptchaReady(false);
       } else {
         setErrorMessage(
           result.error ??
             "Verzenden mislukt. Probeer opnieuw of mail naar breatouch@outlook.com.",
         );
         setFormState("error");
+        turnstileRef.current?.reset();
+        setCaptchaReady(false);
       }
     } catch {
       setErrorMessage(
         "Verzenden mislukt. Probeer opnieuw of mail naar breatouch@outlook.com.",
       );
       setFormState("error");
+      turnstileRef.current?.reset();
+      setCaptchaReady(false);
     }
   };
 
@@ -193,6 +214,11 @@ export default function SponsoringForm() {
               />
             </div>
 
+            <TurnstileWidget
+              ref={turnstileRef}
+              onTokenChange={(token) => setCaptchaReady(Boolean(token))}
+            />
+
             {formState === "error" && errorMessage && (
               <div className={styles.errorMessage}>{errorMessage}</div>
             )}
@@ -200,7 +226,7 @@ export default function SponsoringForm() {
             <button
               type="submit"
               className="btn btn--primary btn--lg"
-              disabled={formState === "sending"}
+              disabled={formState === "sending" || !captchaReady}
               style={{ width: "100%" }}
             >
               {formState === "sending" ? (
