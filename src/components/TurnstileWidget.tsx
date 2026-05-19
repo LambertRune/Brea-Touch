@@ -39,30 +39,35 @@ type TurnstileWidgetProps = {
   onTokenChange?: (token: string | null) => void;
 };
 
+const TURNSTILE_LOAD_ERROR =
+  "CAPTCHA kon niet laden. Voeg dit domein toe in Cloudflare Turnstile (bijv. breatouch.phiosk.be).";
+
 const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
   function TurnstileWidget({ onTokenChange }, ref) {
     const containerRef = useRef<HTMLDivElement>(null);
     const widgetIdRef = useRef<string | null>(null);
     const tokenRef = useRef<string | null>(null);
+    const onTokenChangeRef = useRef(onTokenChange);
     const [scriptReady, setScriptReady] = useState(false);
+    const [widgetError, setWidgetError] = useState<string | null>(null);
 
     const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim();
 
-    const setToken = useCallback(
-      (token: string | null) => {
-        tokenRef.current = token;
-        onTokenChange?.(token);
-      },
-      [onTokenChange],
-    );
+    onTokenChangeRef.current = onTokenChange;
+
+    const notifyToken = useCallback((token: string | null) => {
+      tokenRef.current = token;
+      onTokenChangeRef.current?.(token);
+    }, []);
 
     useImperativeHandle(ref, () => ({
       getToken: () => tokenRef.current,
       reset: () => {
+        setWidgetError(null);
         if (widgetIdRef.current && window.turnstile) {
           window.turnstile.reset(widgetIdRef.current);
         }
-        setToken(null);
+        notifyToken(null);
       },
     }));
 
@@ -72,19 +77,22 @@ const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
       }
 
       if (widgetIdRef.current) {
-        window.turnstile.remove(widgetIdRef.current);
-        widgetIdRef.current = null;
+        return;
       }
 
-      setToken(null);
-      containerRef.current.replaceChildren();
-
+      setWidgetError(null);
       widgetIdRef.current = window.turnstile.render(containerRef.current, {
         sitekey: siteKey,
         theme: "auto",
-        callback: (token) => setToken(token),
-        "expired-callback": () => setToken(null),
-        "error-callback": () => setToken(null),
+        callback: (token) => {
+          setWidgetError(null);
+          notifyToken(token);
+        },
+        "expired-callback": () => notifyToken(null),
+        "error-callback": () => {
+          notifyToken(null);
+          setWidgetError(TURNSTILE_LOAD_ERROR);
+        },
       });
 
       return () => {
@@ -92,8 +100,9 @@ const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
           window.turnstile.remove(widgetIdRef.current);
           widgetIdRef.current = null;
         }
+        notifyToken(null);
       };
-    }, [scriptReady, siteKey, setToken]);
+    }, [scriptReady, siteKey, notifyToken]);
 
     if (!siteKey) {
       return (
@@ -107,12 +116,17 @@ const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
       <>
         <Script
           src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
-          strategy="lazyOnload"
+          strategy="afterInteractive"
           onLoad={() => setScriptReady(true)}
         />
         <div className={styles.wrap}>
           <div ref={containerRef} className={styles.widget} />
         </div>
+        {widgetError && (
+          <p className={styles.configError} role="alert">
+            {widgetError}
+          </p>
+        )}
       </>
     );
   },
