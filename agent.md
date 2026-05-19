@@ -165,6 +165,7 @@ Email subject line from form: `subject: "sponsoring"` in `sendEmailAction` call.
 
 - Server action: `src/app/actions/sendEmail.ts`
 - Requires `RESEND_API_KEY` in environment
+- Contact + sponsoring forms: Cloudflare Turnstile (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`) — server verify in `sendEmailAction`
 - From address currently `onboarding@resend.dev` — change for production domain verification
 - To: `breatouch@outlook.com`
 

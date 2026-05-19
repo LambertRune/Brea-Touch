@@ -18,14 +18,15 @@ function directusOrigin(): string {
 export function buildContentSecurityPolicy(): string {
   const dev = isDevelopment();
   const directus = directusOrigin();
+  const turnstile = "https://challenges.cloudflare.com";
 
   const scriptSrc = dev
-    ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
-    : "script-src 'self' 'unsafe-inline'";
+    ? `script-src 'self' 'unsafe-inline' 'unsafe-eval' ${turnstile}`
+    : `script-src 'self' 'unsafe-inline' ${turnstile}`;
 
   const connectSrc = dev
-    ? `connect-src 'self' ${directus} ws: wss: http://localhost:* https://localhost:*`
-    : `connect-src 'self' ${directus}`;
+    ? `connect-src 'self' ${directus} ${turnstile} ws: wss: http://localhost:* https://localhost:*`
+    : `connect-src 'self' ${directus} ${turnstile}`;
 
   const parts = [
     "default-src 'self'",
@@ -34,6 +35,7 @@ export function buildContentSecurityPolicy(): string {
     "style-src 'self' 'unsafe-inline'",
     "font-src 'self' data:",
     connectSrc,
+    `frame-src 'self' ${turnstile}`,
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'",

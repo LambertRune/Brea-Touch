@@ -481,7 +481,7 @@
 .ctaPattern {
   position: absolute;
   inset: 0;
-  background-image: url("/abstract-pattern.png");
+  background-image: url("/abstract-pattern.webp");
   background-size: cover;
   background-position: center;
   opacity: 0.06;

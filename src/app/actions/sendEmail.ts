@@ -2,6 +2,7 @@
 
 import { Resend } from "resend";
 import { tryConsumeContactSubmissionSlot } from "@/lib/contact-rate-limit";
+import { verifyTurnstileToken } from "@/lib/turnstile";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -10,8 +11,18 @@ export async function sendEmailAction(formData: {
   email: string;
   subject: string;
   message: string;
+  turnstileToken?: string;
 }) {
-  const { name, email, subject, message } = formData;
+  const { name, email, subject, message, turnstileToken } = formData;
+
+  const captcha = await verifyTurnstileToken(turnstileToken);
+  if (!captcha.ok) {
+    return {
+      success: false,
+      error: captcha.message,
+      rateLimited: false as const,
+    };
+  }
 
   const rateLimit = await tryConsumeContactSubmissionSlot();
   if (!rateLimit.ok) {

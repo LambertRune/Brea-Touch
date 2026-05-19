@@ -7,28 +7,28 @@ const SDG_ITEMS = [
     title: "SDG 3",
     description:
       "BréaTouch zet in op bewustwording rond borstkanker en het belang van zelfonderzoek. Door zelfonderzoek te stimuleren, dragen we bij aan vroegdetectie en betere gezondheidsuitkomsten. We verlagen drempels om over gezondheid te praten. ",
-    imageSrc: "/pictures/SDG3.png",
+    imageSrc: "/pictures/SDG3.webp",
     imageAlt: "SDG 3 — goede gezondheid en welzijn",
   },
   {
     title: "SDG 4",
     description:
       "We bieden toegankelijke en begrijpelijke informatie over zelfonderzoek en gezondheid. Via sensibilisering vergroten we kennis bij diverse doelgroepen. Zo versterken we gezondheidsvaardigheden. ",
-    imageSrc: "/pictures/SDG4.png",
+    imageSrc: "/pictures/SDG4.webp",
     imageAlt: "SDG 4 — kwaliteitsonderwijs",
   },
   {
     title: "SDG 5",
     description:
       "We doorbreken taboes rond borstkanker, ook bij mannen. BréaTouch werkt genderinclusief en maakt duidelijk dat iedereen risico loopt. Zo dragen we bij aan gelijke aandacht voor gezondheid. ",
-    imageSrc: "/pictures/SDG5.png",
+    imageSrc: "/pictures/SDG5.webp",
     imageAlt: "SDG 5 — gendergelijkheid",
   },
   {
     title: "SDG 10",
     description:
       "We focussen specifiek op kwetsbare doelgroepen die moeilijk bereikt worden. Door aangepaste communicatie en outreach verkleinen we de drempel. Zo maken we preventie toegankelijk voor iedereen. ",
-    imageSrc: "/pictures/SDG10.png",
+    imageSrc: "/pictures/SDG10.webp",
     imageAlt: "SDG 10 — minder ongelijkheid",
   },
 ] as const;

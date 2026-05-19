@@ -1,9 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import styles from "./page.module.css";
 import { sendEmailAction } from "../actions/sendEmail";
+import TurnstileWidget, {
+  type TurnstileWidgetHandle,
+} from "@/components/TurnstileWidget";
+import { TURNSTILE_MISSING_MESSAGE } from "@/lib/turnstile-messages";
 
 export default function Contact() {
   const [formState, setFormState] = useState<
@@ -16,24 +20,38 @@ export default function Contact() {
     subject: "",
     message: "",
   });
+  const [captchaReady, setCaptchaReady] = useState(false);
+  const turnstileRef = useRef<TurnstileWidgetHandle>(null);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setFormState("sending");
     setErrorMessage(null);
 
+    const turnstileToken = turnstileRef.current?.getToken();
+    if (!turnstileToken) {
+      setErrorMessage(TURNSTILE_MISSING_MESSAGE);
+      setFormState("error");
+      return;
+    }
+
+    setFormState("sending");
+
     try {
-      const result = await sendEmailAction(formData);
+      const result = await sendEmailAction({ ...formData, turnstileToken });
 
       if (result.success) {
         setFormState("sent");
         setFormData({ name: "", email: "", subject: "", message: "" });
+        turnstileRef.current?.reset();
+        setCaptchaReady(false);
       } else {
         setErrorMessage(
           result.error ??
             "Er is iets misgegaan. Probeer het opnieuw of stuur een e-mail naar breatouch@outlook.com.",
         );
         setFormState("error");
+        turnstileRef.current?.reset();
+        setCaptchaReady(false);
       }
     } catch (err) {
       console.error("Error in handleSubmit:", err);
@@ -41,6 +59,8 @@ export default function Contact() {
         "Er is iets misgegaan. Probeer het opnieuw of stuur een e-mail naar breatouch@outlook.com.",
       );
       setFormState("error");
+      turnstileRef.current?.reset();
+      setCaptchaReady(false);
     }
   };
 
@@ -269,6 +289,11 @@ export default function Contact() {
                       />
                     </div>
 
+                    <TurnstileWidget
+                      ref={turnstileRef}
+                      onTokenChange={(token) => setCaptchaReady(Boolean(token))}
+                    />
+
                     {formState === "error" && errorMessage && (
                       <div className={styles.errorMessage}>{errorMessage}</div>
                     )}
@@ -276,7 +301,7 @@ export default function Contact() {
                     <button
                       type="submit"
                       className="btn btn--primary btn--lg"
-                      disabled={formState === "sending"}
+                      disabled={formState === "sending" || !captchaReady}
                       id="contact-submit"
                       style={{ width: "100%" }}
                     >
