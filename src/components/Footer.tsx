@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Heart } from "lucide-react";
 import { getPublishedLegalPages } from "@/lib/cms";
 import styles from "./Footer.module.css";
 
@@ -130,6 +131,25 @@ export default async function Footer() {
             Beheer
           </Link>
         </div>
+        <p className={styles.footerCredit}>
+          Made with{" "}
+          <Heart
+            className={styles.heart}
+            size={18}
+            fill="currentColor"
+            strokeWidth={1.5}
+            aria-hidden
+          />{" "}
+          by{" "}
+          <a
+            href="https://phiosk.be"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.creditLink}
+          >
+            Phiosk Development
+          </a>
+        </p>
       </div>
     </footer>
   );
