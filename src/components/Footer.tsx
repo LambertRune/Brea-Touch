@@ -81,6 +81,9 @@ export default async function Footer() {
             <Link href="/missie-visie" className={styles.footerLink}>
               Missie & Visie
             </Link>
+            <Link href="/onderzoek" className={styles.footerLink}>
+              Onderzoek
+            </Link>
             <Link href="/doe-mee" className={styles.footerLink}>
               Doe Mee
             </Link>

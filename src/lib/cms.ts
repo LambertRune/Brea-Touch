@@ -3,6 +3,7 @@ import {
   readItems,
   readSingleton,
   type LegalPage,
+  type OnderzoekItem,
   type SiteSettings,
   type Sponsor,
   type Testimonial,
@@ -97,5 +98,40 @@ export async function getPublishedSponsors(): Promise<Sponsor[]> {
   } catch (e) {
     logCmsError("sponsors", e);
     return [];
+  }
+}
+
+export async function getPublishedOnderzoekItems(): Promise<OnderzoekItem[]> {
+  try {
+    const directus = getServerDirectus();
+    const items = await directus.request(
+      readItems("onderzoek_items", {
+        filter: publishedOnly,
+        sort: ["sort", "id"],
+      }),
+    );
+    return asList<OnderzoekItem>(items);
+  } catch (e) {
+    logCmsError("onderzoek_items", e);
+    return [];
+  }
+}
+
+export async function getOnderzoekItemBySlug(
+  slug: string,
+): Promise<OnderzoekItem | null> {
+  try {
+    const directus = getServerDirectus();
+    const items = await directus.request(
+      readItems("onderzoek_items", {
+        filter: { _and: [publishedOnly, { slug: { _eq: slug } }] },
+        limit: 1,
+      }),
+    );
+    const list = asList<OnderzoekItem>(items);
+    return list[0] ?? null;
+  } catch (e) {
+    logCmsError("onderzoek_item", e);
+    return null;
   }
 }

@@ -1,9 +1,11 @@
 "use server";
 
+import { slugFromTitle } from "@/lib/slug";
 import {
   createItem,
   deleteItem,
   getServerDirectus,
+  readItem,
   readItems,
   updateItem,
   updateSingleton,
@@ -217,5 +219,105 @@ export async function deleteSponsorAction(id: number) {
   await directus.request(deleteItem("sponsors", id));
   revalidatePath("/doe-mee");
   revalidatePath("/admin/sponsors");
+  return { success: true };
+}
+
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, "").trim();
+}
+
+export async function reorderOnderzoekItemsAction(orderedIds: number[]) {
+  await requireAdmin();
+  const directus = getServerDirectus();
+  await Promise.all(
+    orderedIds.map((id, index) =>
+      directus.request(updateItem("onderzoek_items", id, { sort: index })),
+    ),
+  );
+  revalidatePath("/onderzoek");
+  revalidatePath("/admin/onderzoek");
+  return { success: true };
+}
+
+export async function saveOnderzoekItemAction(data: {
+  id?: number;
+  title: string;
+  kind: "brochure" | "article";
+  excerpt?: string;
+  body?: string;
+  brochure_file?: string | null;
+  language: "nl" | "en";
+  sort?: number;
+}) {
+  await requireAdmin();
+  const title = data.title.trim();
+  const slug = slugFromTitle(title);
+  if (!slug) {
+    return { error: "Titel moet minstens één letter of cijfer bevatten." };
+  }
+  const excerpt = data.excerpt?.trim() || null;
+  const body = data.body?.trim() || null;
+  const brochure_file = data.brochure_file || null;
+
+  if (data.kind === "brochure" && !brochure_file) {
+    return { error: "Brochure vereist een foto." };
+  }
+  if (data.kind === "article" && !stripHtml(body || "")) {
+    return { error: "Artikel vereist inhoud." };
+  }
+
+  const directus = getServerDirectus();
+  let previousSlug: string | null = null;
+  if (data.id) {
+    try {
+      const existing = await directus.request(
+        readItem("onderzoek_items", data.id, { fields: ["slug"] }),
+      );
+      previousSlug =
+        existing && typeof existing === "object" && "slug" in existing
+          ? String(existing.slug)
+          : null;
+    } catch {
+      /* ignore */
+    }
+  }
+
+  const payload = {
+    title,
+    slug,
+    kind: data.kind,
+    excerpt,
+    body: data.kind === "article" ? body : null,
+    brochure_file: data.kind === "brochure" ? brochure_file : null,
+    language: data.language,
+    status: LIVE_STATUS,
+  };
+
+  if (data.id) {
+    await directus.request(updateItem("onderzoek_items", data.id, payload));
+  } else {
+    await directus.request(
+      createItem("onderzoek_items", {
+        ...payload,
+        sort: data.sort ?? 0,
+      }),
+    );
+  }
+
+  revalidatePath("/onderzoek");
+  revalidatePath(`/onderzoek/${slug}`);
+  if (previousSlug && previousSlug !== slug) {
+    revalidatePath(`/onderzoek/${previousSlug}`);
+  }
+  revalidatePath("/admin/onderzoek");
+  return { success: true };
+}
+
+export async function deleteOnderzoekItemAction(id: number) {
+  await requireAdmin();
+  const directus = getServerDirectus();
+  await directus.request(deleteItem("onderzoek_items", id));
+  revalidatePath("/onderzoek");
+  revalidatePath("/admin/onderzoek");
   return { success: true };
 }

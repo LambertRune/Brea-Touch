@@ -5,10 +5,11 @@ import { getPublishedSponsors } from "@/lib/cms";
 import { mapSponsorsToHoneycomb } from "@/lib/sponsors";
 import styles from "./page.module.css";
 
+
 export const metadata: Metadata = {
   title: "Doe Mee",
   description:
-    "Doe mee met BréaTouch! Steun ons via een gift, vertel ons verhaal verder of word sponsor. Samen maken we het verschil in de strijd tegen borstkanker.",
+    "Doe mee met BréaTouch! Vertel ons verhaal verder of word sponsor. Samen maken we het verschil in de strijd tegen borstkanker.",
 };
 
 export default async function DoeMee() {
@@ -32,7 +33,7 @@ export default async function DoeMee() {
       <section className="section" id="opties">
         <div className="container">
           <div className={styles.options}>
-            {/* Fund Me */}
+            {/* Fund Me — tijdelijk uit (GoFundMe)
             <div className={`card ${styles.optionCard} ${styles.optionFund}`}>
               <div className={styles.optionIconWrap}>
                 <div
@@ -65,6 +66,7 @@ export default async function DoeMee() {
                 Steun ons
               </a>
             </div>
+            */}
 
             {/* Vertel het verder */}
             <div className={`card ${styles.optionCard} ${styles.optionShare}`}>
@@ -216,7 +218,7 @@ export default async function DoeMee() {
             <p>
               Interesse om partner van BréaTouch te worden? Als sponsor maak je
               samen met ons zelfonderzoek toegankelijk voor iedereen. Op de
-              sponsorpagina vind je onze pakketten (Supporter tot Goud), de
+              sponsorpagina vind je onze pakketten (Brons tot Goud), de
               voorwaarden en een formulier om vrijblijvend contact op te nemen.
             </p>
             <Link href="/sponsoring-contact" className="btn btn--primary">

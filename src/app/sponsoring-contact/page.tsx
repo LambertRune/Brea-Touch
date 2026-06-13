@@ -2,24 +2,24 @@ import { Suspense } from "react";
 import Link from "next/link";
 import SponsoringForm from "./SponsoringForm";
 import styles from "./page.module.css";
-import SupporterGoFundMe from "./SupporterGoFundMe";
+// import SupporterGoFundMe from "./SupporterGoFundMe";
 import {
   TierIconClover,
   TierIconDiamondsPair,
   TierIconGem,
-  TierIconHeart,
+  // TierIconHeart,
 } from "./SponsoringFicheVisuals";
 
 const TIERS = [
-  {
-    title: "Supporter",
-    price: "Vrije bijdrage",
-    className: styles.tierSupporter,
-    formValue: "Supporter",
-    features: ["Bedankingsmail"],
-    showQr: true,
-    Icon: TierIconHeart,
-  },
+  // {
+  //   title: "Supporter",
+  //   price: "Vrije bijdrage",
+  //   className: styles.tierSupporter,
+  //   formValue: "Supporter",
+  //   features: ["Bedankingsmail"],
+  //   showQr: true,
+  //   Icon: TierIconHeart,
+  // },
   {
     title: "Brons",
     price: "Vanaf €50",
@@ -93,7 +93,7 @@ export default function SponsorovereenkomstPage() {
                         <li key={feature}>{feature}</li>
                       ))}
                     </ul>
-                    {tier.showQr && <SupporterGoFundMe />}
+                    {/* {tier.showQr && <SupporterGoFundMe />} */}
                   </article>
                 );
               })}

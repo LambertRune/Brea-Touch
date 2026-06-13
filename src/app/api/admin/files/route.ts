@@ -29,10 +29,11 @@ export async function GET(req: NextRequest) {
         sort: ["-uploaded_on"],
         limit,
         offset,
-        filter: { type: { _contains: "image/" } },
+        filter: { type: { _starts_with: "image/" } },
       }),
     );
-    return NextResponse.json(files);
+    const list = Array.isArray(files) ? files : [];
+    return NextResponse.json(list);
   } catch (error) {
     console.error("[files GET]", error);
     return NextResponse.json({ error: "Error fetching files" }, { status: 500 });

@@ -17,6 +17,7 @@ type NavItem = {
 const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Missie & Visie", href: "/missie-visie" },
+  { label: "Onderzoek", href: "/onderzoek" },
   { label: "Doe Mee", href: "/doe-mee" },
   { label: "Sponsorovereenkomst", href: "/sponsoring-contact" },
   { label: "Contact", href: "/contact" },
