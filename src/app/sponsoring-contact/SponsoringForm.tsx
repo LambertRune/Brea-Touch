@@ -2,16 +2,17 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
+import { useLocale } from "@/components/LocaleProvider";
 import { sendEmailAction } from "@/app/actions/sendEmail";
 import TurnstileWidget, {
   type TurnstileWidgetHandle,
 } from "@/components/TurnstileWidget";
-import { TURNSTILE_MISSING_MESSAGE } from "@/lib/turnstile-messages";
 import styles from "./page.module.css";
 
-const TIER_OPTIONS = ["Brons", "Zilver", "Goud"] as const;
+const TIER_FORM_VALUES = ["Brons", "Zilver", "Goud"] as const;
 
 export default function SponsoringForm() {
+  const { t } = useLocale();
   const searchParams = useSearchParams();
   const [formState, setFormState] = useState<
     "idle" | "sending" | "sent" | "error"
@@ -27,20 +28,27 @@ export default function SponsoringForm() {
   const [captchaReady, setCaptchaReady] = useState(false);
   const turnstileRef = useRef<TurnstileWidgetHandle>(null);
 
+  const tierOptions = [
+    { value: "Brons", label: t.sponsor.tiers.brons.title },
+    { value: "Zilver", label: t.sponsor.tiers.zilver.title },
+    { value: "Goud", label: t.sponsor.tiers.goud.title },
+  ];
+
   useEffect(() => {
     const tierParam = searchParams.get("tier");
     if (!tierParam) return;
     const normalized = tierParam.trim();
-    if (!TIER_OPTIONS.includes(normalized as (typeof TIER_OPTIONS)[number])) {
+    if (
+      !TIER_FORM_VALUES.includes(normalized as (typeof TIER_FORM_VALUES)[number])
+    ) {
       return;
     }
     setFormData((prev) => ({
       ...prev,
       tier: normalized,
-      message:
-        prev.message || `Ik heb interesse in pakket ${normalized}.`,
+      message: prev.message || t.sponsor.tierInterest(normalized),
     }));
-  }, [searchParams]);
+  }, [searchParams, t]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -48,7 +56,7 @@ export default function SponsoringForm() {
 
     const turnstileToken = turnstileRef.current?.getToken();
     if (!turnstileToken) {
-      setErrorMessage(TURNSTILE_MISSING_MESSAGE);
+      setErrorMessage(t.turnstile.missing);
       setFormState("error");
       return;
     }
@@ -56,10 +64,10 @@ export default function SponsoringForm() {
     setFormState("sending");
 
     const tierLine = formData.tier
-      ? `Gewenst pakket: ${formData.tier}\n`
+      ? `${t.sponsor.tierLine(formData.tier)}\n`
       : "";
     const companyLine = formData.company
-      ? `Bedrijf / organisatie: ${formData.company}\n`
+      ? `${t.sponsor.companyLine(formData.company)}\n`
       : "";
     const composedMessage = `${companyLine}${tierLine}\n${formData.message}`;
 
@@ -84,18 +92,13 @@ export default function SponsoringForm() {
         turnstileRef.current?.reset();
         setCaptchaReady(false);
       } else {
-        setErrorMessage(
-          result.error ??
-            "Verzenden mislukt. Probeer opnieuw of mail naar breatouch@outlook.com.",
-        );
+        setErrorMessage(result.error ?? t.sponsor.submitError);
         setFormState("error");
         turnstileRef.current?.reset();
         setCaptchaReady(false);
       }
     } catch {
-      setErrorMessage(
-        "Verzenden mislukt. Probeer opnieuw of mail naar breatouch@outlook.com.",
-      );
+      setErrorMessage(t.sponsor.submitError);
       setFormState("error");
       turnstileRef.current?.reset();
       setCaptchaReady(false);
@@ -105,25 +108,20 @@ export default function SponsoringForm() {
   return (
     <div className={styles.formSection}>
       <div className={`card ${styles.formCard}`}>
-        <h2>Sponsorovereenkomst</h2>
-        <p className={styles.formDesc}>
-          Laat je gegevens achter; we nemen contact met je op om de mogelijkheden
-          te bespreken.
-        </p>
+        <h2>{t.sponsor.formTitle}</h2>
+        <p className={styles.formDesc}>{t.sponsor.formDesc}</p>
 
         {formState === "sent" ? (
           <div className={styles.successMessage}>
             <div className={styles.successIcon}>✓</div>
-            <h3>Bericht verzonden</h3>
-            <p className={styles.formDesc}>
-              Bedankt. We lezen je aanvraag en reageren zo snel mogelijk.
-            </p>
+            <h3>{t.sponsor.successTitle}</h3>
+            <p className={styles.formDesc}>{t.sponsor.successDesc}</p>
             <button
               type="button"
               className="btn btn--secondary"
               onClick={() => setFormState("idle")}
             >
-              Nieuw bericht
+              {t.common.newMessage}
             </button>
           </div>
         ) : (
@@ -131,7 +129,7 @@ export default function SponsoringForm() {
             <div className={styles.formRow}>
               <div className={styles.formGroup}>
                 <label htmlFor="sponsor-name" className={styles.label}>
-                  Naam *
+                  {t.common.name} *
                 </label>
                 <input
                   id="sponsor-name"
@@ -147,7 +145,7 @@ export default function SponsoringForm() {
               </div>
               <div className={styles.formGroup}>
                 <label htmlFor="sponsor-company" className={styles.label}>
-                  Bedrijf / organisatie
+                  {t.sponsor.company}
                 </label>
                 <input
                   id="sponsor-company"
@@ -164,7 +162,7 @@ export default function SponsoringForm() {
 
             <div className={styles.formGroup}>
               <label htmlFor="sponsor-email" className={styles.label}>
-                E-mail *
+                {t.common.email} *
               </label>
               <input
                 id="sponsor-email"
@@ -181,7 +179,7 @@ export default function SponsoringForm() {
 
             <div className={styles.formGroup}>
               <label htmlFor="sponsor-tier" className={styles.label}>
-                Voorkeurspakket
+                {t.sponsor.preferredTier}
               </label>
               <select
                 id="sponsor-tier"
@@ -191,16 +189,18 @@ export default function SponsoringForm() {
                   setFormData({ ...formData, tier: e.target.value })
                 }
               >
-                <option value="">Nog niet gekozen / in overleg</option>
-                <option value="Brons">Brons</option>
-                <option value="Zilver">Zilver</option>
-                <option value="Goud">Goud</option>
+                <option value="">{t.sponsor.tierUndecided}</option>
+                {tierOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div className={styles.formGroup}>
               <label htmlFor="sponsor-message" className={styles.label}>
-                Bericht *
+                {t.common.message} *
               </label>
               <textarea
                 id="sponsor-message"
@@ -231,10 +231,10 @@ export default function SponsoringForm() {
             >
               {formState === "sending" ? (
                 <>
-                  <span className={styles.spinner} /> Verzenden…
+                  <span className={styles.spinner} /> {t.common.sending}
                 </>
               ) : (
-                "Verstuur aanvraag"
+                t.common.sendRequest
               )}
             </button>
           </form>

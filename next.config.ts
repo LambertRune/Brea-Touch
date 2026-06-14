@@ -4,6 +4,20 @@ import { getSecurityHeaderEntries } from "./src/lib/security-headers";
 const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
+  async redirects() {
+    return [
+      {
+        source: "/onderzoek",
+        destination: "/zelfonderzoek",
+        permanent: true,
+      },
+      {
+        source: "/onderzoek/:slug",
+        destination: "/zelfonderzoek",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     const security = getSecurityHeaderEntries().map(({ key, value }) => ({
       key,

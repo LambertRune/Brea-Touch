@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
-  BookOpen,
   FileText,
   Heart,
   Hexagon,
@@ -19,7 +18,6 @@ const adminItems = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
   { title: "Homepage", url: "/admin/homepage", icon: Home },
   { title: "Verhalen", url: "/admin/verhalen", icon: Heart },
-  { title: "Onderzoek", url: "/admin/onderzoek", icon: BookOpen },
   { title: "Voorwaarden", url: "/admin/voorwaarden", icon: FileText },
   { title: "Sponsors", url: "/admin/sponsors", icon: Hexagon },
 ];

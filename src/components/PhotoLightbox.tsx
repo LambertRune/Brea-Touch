@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import styles from "./PhotoLightbox.module.css";
+import { useLocale } from "@/components/LocaleProvider";
 
 export function PhotoLightbox({
   src,
@@ -16,6 +17,7 @@ export function PhotoLightbox({
   triggerClassName?: string;
   imageClassName?: string;
 }) {
+  const { t } = useLocale();
   const [open, setOpen] = useState(false);
   const enlarged = fullSrc || src;
 
@@ -39,7 +41,7 @@ export function PhotoLightbox({
         type="button"
         className={`${styles.photoLightboxTrigger}${triggerClassName ? ` ${triggerClassName}` : ""}`}
         onClick={() => setOpen(true)}
-        aria-label="Vergroot afbeelding"
+        aria-label={t.common.enlargeImage}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={src} alt={alt} className={imageClassName} />
@@ -50,7 +52,7 @@ export function PhotoLightbox({
           className={styles.overlay}
           role="dialog"
           aria-modal="true"
-          aria-label={alt || "Vergrote afbeelding"}
+          aria-label={alt || t.common.enlargedImage}
           onClick={() => setOpen(false)}
         >
           <div className={styles.stage} onClick={(e) => e.stopPropagation()}>
@@ -61,7 +63,7 @@ export function PhotoLightbox({
               className={styles.closeBtn}
               onClick={() => setOpen(false)}
             >
-              Sluiten
+              {t.common.close}
             </button>
           </div>
         </div>

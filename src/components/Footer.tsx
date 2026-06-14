@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { Heart } from "lucide-react";
 import { getPublishedLegalPages } from "@/lib/cms";
+import { getServerMessages } from "@/lib/i18n/server";
 import styles from "./Footer.module.css";
 
 export default async function Footer() {
+  const t = await getServerMessages();
   const legalPages = await getPublishedLegalPages();
   const pages = Array.isArray(legalPages) ? legalPages : [];
 
@@ -12,7 +14,7 @@ export default async function Footer() {
       <div className={styles.footerTop}>
         <div className={`container ${styles.footerGrid}`}>
           <div className={styles.footerLinks}>
-            <h4 className={styles.footerTitle}>Volg ons</h4>
+            <h4 className={styles.footerTitle}>{t.common.followUs}</h4>
             <div className={styles.socials}>
               <a
                 href="https://www.instagram.com/breatouch"
@@ -74,32 +76,30 @@ export default async function Footer() {
             </div>
           </div>
           <div className={styles.footerLinks}>
-            <h4 className={styles.footerTitle}>Navigatie</h4>
+            <h4 className={styles.footerTitle}>{t.common.navigation}</h4>
             <Link href="/" className={styles.footerLink}>
-              Home
+              {t.nav.home}
             </Link>
             <Link href="/missie-visie" className={styles.footerLink}>
-              Missie & Visie
+              {t.nav.mission}
             </Link>
-            <Link href="/onderzoek" className={styles.footerLink}>
-              Onderzoek
+            <Link href="/zelfonderzoek" className={styles.footerLink}>
+              {t.nav.selfExam}
             </Link>
             <Link href="/doe-mee" className={styles.footerLink}>
-              Doe Mee
+              {t.nav.join}
             </Link>
             <Link href="/sponsoring-contact" className={styles.footerLink}>
-              Sponsorovereenkomst
+              {t.nav.sponsor}
             </Link>
             <Link href="/contact" className={styles.footerLink}>
-              Contact
+              {t.nav.contact}
             </Link>
           </div>
           <div className={styles.footerLinks}>
-            <h4 className={styles.footerTitle}>Juridische Informatie</h4>
+            <h4 className={styles.footerTitle}>{t.common.legalInfo}</h4>
             {pages.length === 0 ? (
-              <span className={styles.footerMuted}>
-                Nog geen pagina&apos;s gepubliceerd
-              </span>
+              <span className={styles.footerMuted}>{t.common.noLegalPages}</span>
             ) : (
               pages.map((page) => (
                 <Link
@@ -114,7 +114,7 @@ export default async function Footer() {
           </div>
 
           <div className={styles.footerLinks}>
-            <h4 className={styles.footerTitle}>Contact</h4>
+            <h4 className={styles.footerTitle}>{t.common.contact}</h4>
             <a
               href="mailto:breatouch@outlook.com"
               className={styles.footerLink}
@@ -128,14 +128,14 @@ export default async function Footer() {
       <div className={styles.footerBottom}>
         <div className={`container ${styles.footerBottomInner}`}>
           <p className={styles.copyright}>
-            © {new Date().getFullYear()} BréaTouch. Alle rechten voorbehouden.
+            © {new Date().getFullYear()} BréaTouch. {t.common.copyright}
           </p>
           <Link href="/admin/login" className={styles.adminLink}>
-            Beheer
+            {t.common.admin}
           </Link>
         </div>
         <p className={styles.footerCredit}>
-          Made with{" "}
+          {t.common.madeWith}{" "}
           <Heart
             className={styles.heart}
             size={18}
@@ -143,7 +143,7 @@ export default async function Footer() {
             strokeWidth={1.5}
             aria-hidden
           />{" "}
-          by{" "}
+          {t.common.by}{" "}
           <a
             href="https://phiosk.be"
             target="_blank"

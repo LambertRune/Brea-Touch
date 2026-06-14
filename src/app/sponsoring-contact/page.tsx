@@ -1,73 +1,30 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import SponsoringForm from "./SponsoringForm";
-import styles from "./page.module.css";
-// import SupporterGoFundMe from "./SupporterGoFundMe";
 import {
   TierIconClover,
   TierIconDiamondsPair,
   TierIconGem,
-  // TierIconHeart,
 } from "./SponsoringFicheVisuals";
+import { getServerMessages } from "@/lib/i18n/server";
+import styles from "./page.module.css";
 
-const TIERS = [
-  // {
-  //   title: "Supporter",
-  //   price: "Vrije bijdrage",
-  //   className: styles.tierSupporter,
-  //   formValue: "Supporter",
-  //   features: ["Bedankingsmail"],
-  //   showQr: true,
-  //   Icon: TierIconHeart,
-  // },
-  {
-    title: "Brons",
-    price: "Vanaf €50",
-    className: styles.tierBrons,
-    formValue: "Brons",
-    features: ["Vermelding van klein logo op de website"],
-    showQr: false,
-    Icon: TierIconClover,
-  },
-  {
-    title: "Zilver",
-    price: "Vanaf €200",
-    className: styles.tierZilver,
-    formValue: "Zilver",
-    features: [
-      "Vermelding van klein logo op de website",
-      "Vermelding op LinkedIn",
-      "Vermelding op instagram",
-    ],
-    showQr: false,
-    Icon: TierIconDiamondsPair,
-  },
-  {
-    title: "Goud",
-    price: "Vanaf €500",
-    className: styles.tierGoud,
-    formValue: "Goud",
-    features: [
-      "Grote vermelding op website",
-      "Vermelding op offline campagnemateriaal",
-      "Sociale media post",
-    ],
-    showQr: false,
-    Icon: TierIconGem,
-  },
-] as const;
+const TIER_CONFIG = [
+  { key: "brons" as const, formValue: "Brons", className: styles.tierBrons, Icon: TierIconClover },
+  { key: "zilver" as const, formValue: "Zilver", className: styles.tierZilver, Icon: TierIconDiamondsPair },
+  { key: "goud" as const, formValue: "Goud", className: styles.tierGoud, Icon: TierIconGem },
+];
 
-export default function SponsorovereenkomstPage() {
+export default async function SponsorovereenkomstPage() {
+  const t = await getServerMessages();
+
   return (
     <>
       <section className={styles.pageHeader}>
         <div className="container text-center">
-          <span className="badge badge--yellow">Sponsorovereenkomst</span>
-          <h1>Sponsoring</h1>
-          <p className={styles.headerDesc}>
-            Word sponsor van BréaTouch en maak samen met ons zelfonderzoek
-            toegankelijk voor iedereen.
-          </p>
+          <span className="badge badge--yellow">{t.sponsor.badge}</span>
+          <h1>{t.sponsor.title}</h1>
+          <p className={styles.headerDesc}>{t.sponsor.headerDesc}</p>
         </div>
       </section>
 
@@ -75,25 +32,24 @@ export default function SponsorovereenkomstPage() {
         <div className="container">
           <div className={styles.ficheWrap}>
             <div className={styles.tierGrid}>
-              {TIERS.map((tier) => {
-                const Icon = tier.Icon;
+              {TIER_CONFIG.map(({ key, formValue, className, Icon }) => {
+                const tier = t.sponsor.tiers[key];
                 return (
                   <article
-                    key={tier.formValue}
-                    className={`${styles.tierCard} ${tier.className}`}
+                    key={formValue}
+                    className={`${styles.tierCard} ${className}`}
                   >
                     <div className={styles.tierIcon} aria-hidden="true">
                       <Icon />
                     </div>
                     <h2>{tier.title}</h2>
                     <p className={styles.tierPrice}>{tier.price}</p>
-                    <p className={styles.tierLabel}>Wat krijg je?</p>
+                    <p className={styles.tierLabel}>{t.sponsor.whatYouGet}</p>
                     <ul className={styles.tierList}>
                       {tier.features.map((feature) => (
                         <li key={feature}>{feature}</li>
                       ))}
                     </ul>
-                    {/* {tier.showQr && <SupporterGoFundMe />} */}
                   </article>
                 );
               })}
@@ -109,7 +65,7 @@ export default function SponsorovereenkomstPage() {
           </Suspense>
           <p className={styles.formBottomLink}>
             <Link href="/contact" className="btn btn--outline">
-              Algemeen contact
+              {t.sponsor.generalContact}
             </Link>
           </p>
         </div>

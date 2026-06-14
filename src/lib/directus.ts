@@ -43,28 +43,11 @@ export interface Sponsor {
   status: string;
 }
 
-export type OnderzoekKind = "brochure" | "article";
-export type OnderzoekLanguage = "nl" | "en";
-
-export interface OnderzoekItem {
-  id: number;
-  title: string;
-  slug: string;
-  kind: OnderzoekKind;
-  excerpt: string | null;
-  body: string | null;
-  brochure_file: string | null;
-  language: OnderzoekLanguage;
-  sort: number | null;
-  status: string;
-}
-
 export interface Schema {
   site_settings: SiteSettings;
   testimonials: Testimonial[];
   legal_pages: LegalPage[];
   sponsors: Sponsor[];
-  onderzoek_items: OnderzoekItem[];
 }
 
 import { directusUrl, getImageUrl } from "@/lib/directus-url";
@@ -87,7 +70,7 @@ export function getServerDirectus() {
   const token = process.env.DIRECTUS_TOKEN;
   if (!token) {
     const msg =
-      "[directus] DIRECTUS_TOKEN is not set — sponsors/legal_pages/onderzoek_items need it (public read is 403).";
+      "[directus] DIRECTUS_TOKEN is not set — sponsors/legal_pages need it (public read is 403).";
     if (process.env.NODE_ENV === "production") {
       console.error(msg);
     } else {

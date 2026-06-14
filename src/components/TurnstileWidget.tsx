@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useLocale } from "@/components/LocaleProvider";
 import styles from "./TurnstileWidget.module.css";
 
 declare global {
@@ -39,11 +40,9 @@ type TurnstileWidgetProps = {
   onTokenChange?: (token: string | null) => void;
 };
 
-const TURNSTILE_LOAD_ERROR =
-  "CAPTCHA kon niet laden. Voeg dit domein toe in Cloudflare Turnstile (bijv. breatouch.phiosk.be).";
-
 const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
   function TurnstileWidget({ onTokenChange }, ref) {
+    const { t } = useLocale();
     const containerRef = useRef<HTMLDivElement>(null);
     const widgetIdRef = useRef<string | null>(null);
     const tokenRef = useRef<string | null>(null);
@@ -91,7 +90,7 @@ const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
         "expired-callback": () => notifyToken(null),
         "error-callback": () => {
           notifyToken(null);
-          setWidgetError(TURNSTILE_LOAD_ERROR);
+          setWidgetError(t.turnstile.loadError);
         },
       });
 
@@ -102,12 +101,12 @@ const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
         }
         notifyToken(null);
       };
-    }, [scriptReady, siteKey, notifyToken]);
+    }, [scriptReady, siteKey, notifyToken, t.turnstile.loadError]);
 
     if (!siteKey) {
       return (
         <p className={styles.configError} role="alert">
-          CAPTCHA niet geconfigureerd (NEXT_PUBLIC_TURNSTILE_SITE_KEY).
+          {t.turnstile.notConfigured}
         </p>
       );
     }

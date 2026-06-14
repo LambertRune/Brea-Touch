@@ -1,15 +1,15 @@
 "use client";
 
-import Link from "next/link";
 import { useRef, useState, type FormEvent } from "react";
+import { useLocale } from "@/components/LocaleProvider";
 import styles from "./page.module.css";
 import { sendEmailAction } from "../actions/sendEmail";
 import TurnstileWidget, {
   type TurnstileWidgetHandle,
 } from "@/components/TurnstileWidget";
-import { TURNSTILE_MISSING_MESSAGE } from "@/lib/turnstile-messages";
 
 export default function Contact() {
+  const { t } = useLocale();
   const [formState, setFormState] = useState<
     "idle" | "sending" | "sent" | "error"
   >("idle");
@@ -29,7 +29,7 @@ export default function Contact() {
 
     const turnstileToken = turnstileRef.current?.getToken();
     if (!turnstileToken) {
-      setErrorMessage(TURNSTILE_MISSING_MESSAGE);
+      setErrorMessage(t.turnstile.missing);
       setFormState("error");
       return;
     }
@@ -45,19 +45,14 @@ export default function Contact() {
         turnstileRef.current?.reset();
         setCaptchaReady(false);
       } else {
-        setErrorMessage(
-          result.error ??
-            "Er is iets misgegaan. Probeer het opnieuw of stuur een e-mail naar breatouch@outlook.com.",
-        );
+        setErrorMessage(result.error ?? t.contact.submitError);
         setFormState("error");
         turnstileRef.current?.reset();
         setCaptchaReady(false);
       }
     } catch (err) {
       console.error("Error in handleSubmit:", err);
-      setErrorMessage(
-        "Er is iets misgegaan. Probeer het opnieuw of stuur een e-mail naar breatouch@outlook.com.",
-      );
+      setErrorMessage(t.contact.submitError);
       setFormState("error");
       turnstileRef.current?.reset();
       setCaptchaReady(false);
@@ -66,22 +61,17 @@ export default function Contact() {
 
   return (
     <>
-      {/* Page Header */}
       <section className={styles.pageHeader}>
         <div className="container text-center">
-          <span className="badge badge--rose">Contact</span>
-          <h1>Neem contact op</h1>
-          <p className={styles.headerDesc}>
-            Heb je een vraag, wil je samenwerken of wil je meer weten over
-            BréaTouch? We horen graag van je!
-          </p>
+          <span className="badge badge--rose">{t.contact.badge}</span>
+          <h1>{t.contact.title}</h1>
+          <p className={styles.headerDesc}>{t.contact.headerDesc}</p>
         </div>
       </section>
 
       <section className="section" id="contact-info">
         <div className="container">
           <div className={styles.contactGrid}>
-            {/* Contact Info */}
             <div className={styles.contactInfo}>
               <div className={styles.infoCards}>
                 <div className={`card ${styles.infoCard} ${styles.infoCardGreen}`}>
@@ -101,7 +91,7 @@ export default function Contact() {
                     </svg>
                   </div>
                   <div>
-                    <h4>E-mail</h4>
+                    <h4>{t.common.email}</h4>
                     <a href="mailto:breatouch@outlook.com">
                       breatouch@outlook.com
                     </a>
@@ -185,28 +175,21 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Contact Form */}
             <div className={styles.formWrapper}>
               <div className={`card ${styles.formCard}`}>
-                <h3>Stuur ons een bericht</h3>
-                <p className={styles.formDesc}>
-                  Vul het formulier in en we nemen zo snel mogelijk contact met
-                  je op.
-                </p>
+                <h3>{t.contact.formTitle}</h3>
+                <p className={styles.formDesc}>{t.contact.formDesc}</p>
 
                 {formState === "sent" ? (
                   <div className={styles.successMessage} id="form-success">
                     <div className={styles.successIcon}>✓</div>
-                    <h4>Bericht verzonden!</h4>
-                    <p>
-                      Bedankt voor je bericht. We nemen zo snel mogelijk contact
-                      met je op.
-                    </p>
+                    <h4>{t.contact.successTitle}</h4>
+                    <p>{t.contact.successDesc}</p>
                     <button
                       className="btn btn--secondary"
                       onClick={() => setFormState("idle")}
                     >
-                      Nieuw bericht
+                      {t.common.newMessage}
                     </button>
                   </div>
                 ) : (
@@ -218,13 +201,13 @@ export default function Contact() {
                     <div className={styles.formRow}>
                       <div className={styles.formGroup}>
                         <label htmlFor="contact-name" className={styles.label}>
-                          Naam
+                          {t.common.name}
                         </label>
                         <input
                           type="text"
                           id="contact-name"
                           className={styles.input}
-                          placeholder="Jouw naam"
+                          placeholder={t.contact.namePlaceholder}
                           value={formData.name}
                           onChange={(e) =>
                             setFormData({ ...formData, name: e.target.value })
@@ -234,13 +217,13 @@ export default function Contact() {
                       </div>
                       <div className={styles.formGroup}>
                         <label htmlFor="contact-email" className={styles.label}>
-                          E-mail
+                          {t.common.email}
                         </label>
                         <input
                           type="email"
                           id="contact-email"
                           className={styles.input}
-                          placeholder="jouw@email.com"
+                          placeholder={t.contact.emailPlaceholder}
                           value={formData.email}
                           onChange={(e) =>
                             setFormData({ ...formData, email: e.target.value })
@@ -252,7 +235,7 @@ export default function Contact() {
 
                     <div className={styles.formGroup}>
                       <label htmlFor="contact-subject" className={styles.label}>
-                        Onderwerp
+                        {t.contact.subject}
                       </label>
                       <select
                         id="contact-subject"
@@ -263,23 +246,27 @@ export default function Contact() {
                         }
                         required
                       >
-                        <option value="">Kies een onderwerp</option>
-                        <option value="algemeen">Algemene vraag</option>
-                        <option value="samenwerking">Samenwerking</option>
-                        <option value="sponsoring">Sponsoring</option>
-                        <option value="media">Media & pers</option>
-                        <option value="anders">Anders</option>
+                        <option value="">{t.contact.subjectPlaceholder}</option>
+                        <option value="algemeen">{t.contact.subjectGeneral}</option>
+                        <option value="samenwerking">
+                          {t.contact.subjectPartnership}
+                        </option>
+                        <option value="sponsoring">
+                          {t.contact.subjectSponsoring}
+                        </option>
+                        <option value="media">{t.contact.subjectMedia}</option>
+                        <option value="anders">{t.contact.subjectOther}</option>
                       </select>
                     </div>
 
                     <div className={styles.formGroup}>
                       <label htmlFor="contact-message" className={styles.label}>
-                        Bericht
+                        {t.common.message}
                       </label>
                       <textarea
                         id="contact-message"
                         className={`${styles.input} ${styles.textarea}`}
-                        placeholder="Schrijf je bericht hier..."
+                        placeholder={t.contact.messagePlaceholder}
                         rows={5}
                         value={formData.message}
                         onChange={(e) =>
@@ -308,10 +295,10 @@ export default function Contact() {
                       {formState === "sending" ? (
                         <>
                           <span className={styles.spinner} />
-                          Verzenden...
+                          {t.common.sending}
                         </>
                       ) : (
-                        "Verstuur bericht"
+                        t.common.sendMessage
                       )}
                     </button>
                   </form>

@@ -4,33 +4,25 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useLocale } from "@/components/LocaleProvider";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { SOCIAL_LINK_LIST } from "@/lib/socialLinks";
 import { SocialIcon } from "@/components/SocialIcon";
 import styles from "./Header.module.css";
 
-type NavItem = {
-  label: string;
-  href: string;
-  external?: boolean;
-};
-
-const navItems: NavItem[] = [
-  { label: "Home", href: "/" },
-  { label: "Missie & Visie", href: "/missie-visie" },
-  { label: "Onderzoek", href: "/onderzoek" },
-  { label: "Doe Mee", href: "/doe-mee" },
-  { label: "Sponsorovereenkomst", href: "/sponsoring-contact" },
-  { label: "Contact", href: "/contact" },
-  // {
-  //   label: "Webshop",
-  //   href: "https://breatouch.shop",
-  //   external: true,
-  // },
-];
-
 export default function Header() {
   const pathname = usePathname();
+  const { t } = useLocale();
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const navItems = [
+    { label: t.nav.home, href: "/" },
+    { label: t.nav.mission, href: "/missie-visie" },
+    { label: t.nav.selfExam, href: "/zelfonderzoek" },
+    { label: t.nav.join, href: "/doe-mee" },
+    { label: t.nav.sponsor, href: "/sponsoring-contact" },
+    { label: t.nav.contact, href: "/contact" },
+  ];
 
   useEffect(() => {
     if (menuOpen) {
@@ -52,7 +44,7 @@ export default function Header() {
       style={{ backgroundColor: "#f5f2ee" }}
     >
       <div className={styles.headerInner}>
-        <Link href="/" className={styles.logo} aria-label="BréaTouch home">
+        <Link href="/" className={styles.logo} aria-label={t.common.homeAria}>
           <Image
             src="/pictures/logo.webp"
             alt="BréaTouch"
@@ -77,32 +69,15 @@ export default function Header() {
                   pathname === item.href ? styles.navLinkActive : ""
                 }`}
                 onClick={() => setMenuOpen(false)}
-                {...(item.external
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
               >
                 {item.label}
-                {item.external && (
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 12 12"
-                    fill="none"
-                    className={styles.externalIcon}
-                  >
-                    <path
-                      d="M3.5 1H11V8.5M11 1L1 11"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                )}
               </Link>
             ))}
           </div>
-          <div className={styles.navSocials} aria-label="Volg ons">
+          <div className={styles.navLang}>
+            <LanguageSwitcher />
+          </div>
+          <div className={styles.navSocials} aria-label={t.common.followUs}>
             {SOCIAL_LINK_LIST.map((social) => (
               <a
                 key={social.network}
@@ -119,17 +94,22 @@ export default function Header() {
           </div>
         </nav>
 
-        <button
-          className={`${styles.burger} ${menuOpen ? styles.burgerOpen : ""}`}
-          onClick={toggleMenu}
-          aria-label="Menu openen"
-          aria-expanded={menuOpen}
-          id="menu-toggle"
-        >
-          <span />
-          <span />
-          <span />
-        </button>
+        <div className={styles.headerActions}>
+          <div className={styles.headerLangDesktop}>
+            <LanguageSwitcher />
+          </div>
+          <button
+            className={`${styles.burger} ${menuOpen ? styles.burgerOpen : ""}`}
+            onClick={toggleMenu}
+            aria-label={t.common.menuOpen}
+            aria-expanded={menuOpen}
+            id="menu-toggle"
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
       </div>
     </header>
   );

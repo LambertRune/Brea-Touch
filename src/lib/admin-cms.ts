@@ -3,7 +3,6 @@ import {
   readItems,
   readSingleton,
   type LegalPage,
-  type OnderzoekItem,
   type SiteSettings,
   type Sponsor,
   type Testimonial,
@@ -101,35 +100,6 @@ export async function loadAdminSponsors(): Promise<AdminLoadResult<Sponsor[]>> {
     return { data, error: null };
   } catch (e) {
     console.error("[Admin CMS] sponsors:", e);
-    return { data: [], error: loadError(e) };
-  }
-}
-
-export async function loadAdminOnderzoekItems(): Promise<
-  AdminLoadResult<OnderzoekItem[]>
-> {
-  try {
-    const directus = getServerDirectus();
-    const data = await directus.request(
-      readItems("onderzoek_items", {
-        sort: ["sort", "id"],
-        fields: [
-          "id",
-          "title",
-          "slug",
-          "kind",
-          "excerpt",
-          "body",
-          "brochure_file",
-          "language",
-          "sort",
-          "status",
-        ],
-      }),
-    );
-    return { data, error: null };
-  } catch (e) {
-    console.error("[Admin CMS] onderzoek_items:", e);
     return { data: [], error: loadError(e) };
   }
 }

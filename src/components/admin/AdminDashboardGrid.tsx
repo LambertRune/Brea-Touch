@@ -14,11 +14,6 @@ const links = [
     description: "Maximaal 3 gepubliceerde getuigenissen",
   },
   {
-    href: "/admin/onderzoek",
-    title: "Onderzoek",
-    description: "Brochures (foto) en artikelen op /onderzoek",
-  },
-  {
     href: "/admin/voorwaarden",
     title: "Voorwaarden",
     description: "Juridische pagina's voor in de footer",
