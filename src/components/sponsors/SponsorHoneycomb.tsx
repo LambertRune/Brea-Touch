@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useLocale } from "@/components/LocaleProvider";
 import {
   buildSoftHexGradient,
   readDominantColorsFromImage,
@@ -23,10 +24,13 @@ export type SponsorHoneycombItem = {
 export function SponsorHoneycomb({
   sponsors,
   embedded = false,
+  ariaLabel,
 }: {
   sponsors: SponsorHoneycombItem[];
   embedded?: boolean;
+  ariaLabel?: string;
 }) {
+  const { t } = useLocale();
   const { placed, width, height } = useMemo(
     () => layoutHoneycomb(sponsors),
     [sponsors],
@@ -50,14 +54,21 @@ export function SponsorHoneycomb({
   );
 
   if (embedded) {
-    return grid;
+    return (
+      <div role="region" aria-label={ariaLabel ?? t.common.ourSponsors}>
+        {grid}
+      </div>
+    );
   }
 
   return (
-    <section className={styles.section} aria-label="Onze sponsors">
+    <section
+      className={styles.section}
+      aria-label={ariaLabel ?? t.common.ourSponsors}
+    >
       <div className="container text-center">
-        <span className="badge badge--yellow">Partners</span>
-        <h2 className={styles.title}>Onze sponsors</h2>
+        <span className="badge badge--yellow">{t.join.partnersBadge}</span>
+        <h2 className={styles.title}>{t.join.sponsorsTitle}</h2>
         <div className="divider divider--center" />
         {grid}
       </div>

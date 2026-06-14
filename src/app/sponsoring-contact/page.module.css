@@ -50,14 +50,20 @@
 }
 
 .ficheWrap {
-  max-width: 1100px;
+  width: 100%;
+  max-width: 960px;
   margin: 0 auto;
+  display: flex;
+  justify-content: center;
 }
 
 .tierGrid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(var(--space-md), 2vw, var(--space-xl));
+  max-width: 960px;
+  margin: 0 auto;
+  justify-items: stretch;
 }
 
 .tierCard {

@@ -1,8 +1,5 @@
 import { headers } from "next/headers";
-import {
-  TURNSTILE_FAILED_MESSAGE,
-  TURNSTILE_MISSING_MESSAGE,
-} from "@/lib/turnstile-messages";
+import { getTurnstileMessages } from "@/lib/turnstile-messages";
 
 const SITEVERIFY_URL =
   "https://challenges.cloudflare.com/turnstile/v0/siteverify";
@@ -25,6 +22,7 @@ function getClientIp(headerList: Headers): string | undefined {
 export async function verifyTurnstileToken(
   token: string | undefined,
 ): Promise<{ ok: true } | { ok: false; message: string }> {
+  const t = await getTurnstileMessages();
   const secret = process.env.TURNSTILE_SECRET_KEY?.trim();
   if (!secret) {
     console.error("TURNSTILE_SECRET_KEY is not configured");
@@ -32,13 +30,13 @@ export async function verifyTurnstileToken(
       ok: false,
       message:
         process.env.NODE_ENV === "development"
-          ? "Turnstile secret ontbreekt (TURNSTILE_SECRET_KEY)."
-          : "Formulier tijdelijk niet beschikbaar. Mail naar breatouch@outlook.com.",
+          ? t.secretMissingDev
+          : t.formUnavailable,
     };
   }
 
   if (!token?.trim()) {
-    return { ok: false, message: TURNSTILE_MISSING_MESSAGE };
+    return { ok: false, message: t.missing };
   }
 
   const headerList = await headers();
@@ -60,18 +58,18 @@ export async function verifyTurnstileToken(
 
     if (!res.ok) {
       console.error("Turnstile siteverify HTTP error:", res.status);
-      return { ok: false, message: TURNSTILE_FAILED_MESSAGE };
+      return { ok: false, message: t.failed };
     }
 
     const data = (await res.json()) as SiteverifyResponse;
     if (!data.success) {
       console.error("Turnstile siteverify failed:", data["error-codes"]);
-      return { ok: false, message: TURNSTILE_FAILED_MESSAGE };
+      return { ok: false, message: t.failed };
     }
 
     return { ok: true };
   } catch (err) {
     console.error("Turnstile siteverify request failed:", err);
-    return { ok: false, message: TURNSTILE_FAILED_MESSAGE };
+    return { ok: false, message: t.failed };
   }
 }

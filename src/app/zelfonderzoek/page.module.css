@@ -1,0 +1,24 @@
+.download {
+  min-height: calc(100vh - 72px - 12rem);
+  display: flex;
+  align-items: center;
+  padding-top: var(--space-4xl);
+  padding-bottom: var(--space-4xl);
+  background: var(--color-bg-warm);
+}
+
+.downloadInner {
+  max-width: 560px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.downloadDesc {
+  margin: 0 0 var(--space-xl);
+  color: var(--color-text-light);
+  line-height: 1.75;
+}
+
+.downloadBtn {
+  display: inline-flex;
+}

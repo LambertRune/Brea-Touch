@@ -3,20 +3,15 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { useLocale } from "@/components/LocaleProvider";
 import styles from "@/app/page.module.css";
 
 gsap.registerPlugin(useGSAP);
 
-const LINES = [
-  "VOELEN WAT ER SPEELT,",
-  "BEGRIJPEN WAT HET BETEKENT,",
-  "VERTROUWEN HEBBEN IN JEZELF.",
-] as const;
-
-const ARIA_LABEL = LINES.join(" ");
-
 export function HeroAnimatedTitles() {
+  const { t } = useLocale();
   const root = useRef<HTMLHeadingElement>(null);
+  const ariaLabel = t.hero.lines.join(" ");
 
   useGSAP(
     () => {
@@ -37,8 +32,8 @@ export function HeroAnimatedTitles() {
   );
 
   return (
-    <h1 className={styles.heroTitle} ref={root} aria-label={ARIA_LABEL}>
-      {LINES.map((line, lineIndex) => (
+    <h1 className={styles.heroTitle} ref={root} aria-label={ariaLabel}>
+      {t.hero.lines.map((line, lineIndex) => (
         <span className={styles.heroTitleLine} key={lineIndex}>
           {Array.from(line).map((char, charIndex) => (
             <span

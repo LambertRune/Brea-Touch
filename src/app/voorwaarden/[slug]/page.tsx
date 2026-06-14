@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { RichTextViewer } from "@/components/RichTextViewer";
 import { getLegalPageBySlug } from "@/lib/cms";
+import { getServerMessages } from "@/lib/i18n/server";
 import styles from "./page.module.css";
 
 export async function generateMetadata({
@@ -8,9 +9,9 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
+  const [{ slug }, t] = await Promise.all([params, getServerMessages()]);
   const page = await getLegalPageBySlug(slug);
-  if (!page) return { title: "Pagina niet gevonden" };
+  if (!page) return { title: t.legal.pageNotFound };
   return { title: page.title };
 }
 

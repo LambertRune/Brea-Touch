@@ -2,71 +2,35 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SponsorHoneycomb } from "@/components/sponsors/SponsorHoneycomb";
 import { getPublishedSponsors } from "@/lib/cms";
+import { getServerMessages } from "@/lib/i18n/server";
 import { mapSponsorsToHoneycomb } from "@/lib/sponsors";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Doe Mee",
-  description:
-    "Doe mee met BréaTouch! Steun ons via een gift, vertel ons verhaal verder of word sponsor. Samen maken we het verschil in de strijd tegen borstkanker.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getServerMessages();
+  return {
+    title: t.join.metaTitle,
+    description: t.join.metaDescription,
+  };
+}
 
 export default async function DoeMee() {
+  const t = await getServerMessages();
   const sponsors = mapSponsorsToHoneycomb(await getPublishedSponsors());
 
   return (
     <>
-      {/* Page Header */}
       <section className={styles.pageHeader}>
         <div className="container text-center">
-          <span className="badge badge--yellow">Doe mee</span>
-          <h1>Iedereen kan iets betekenen</h1>
-          <p className={styles.headerDesc}>
-            Of je nu jong bent of al wat meer levenservaring hebt, jouw inzet
-            telt. Samen maken we het verschil.
-          </p>
+          <span className="badge badge--yellow">{t.join.badge}</span>
+          <h1>{t.join.title}</h1>
+          <p className={styles.headerDesc}>{t.join.headerDesc}</p>
         </div>
       </section>
 
-      {/* Three Options */}
       <section className="section" id="opties">
         <div className="container">
           <div className={styles.options}>
-            {/* Fund Me */}
-            <div className={`card ${styles.optionCard} ${styles.optionFund}`}>
-              <div className={styles.optionIconWrap}>
-                <div
-                  className={`${styles.optionIcon} ${styles.optionIconFund}`}
-                >
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                  </svg>
-                </div>
-              </div>
-              <div className={styles.optionLabel}>Doe een gift</div>
-              <h3>Fund me</h3>
-              <p>
-                Met jouw gift, groot of klein, geef je onze onderneming de
-                kracht om verder te groeien en meer impact te maken.
-              </p>
-              <a
-                href="https://gofund.me/94dae2071"
-                className="btn btn--primary"
-              >
-                Steun ons
-              </a>
-            </div>
-
-            {/* Vertel het verder */}
             <div className={`card ${styles.optionCard} ${styles.optionShare}`}>
               <div className={styles.optionIconWrap}>
                 <div
@@ -90,20 +54,16 @@ export default async function DoeMee() {
                   </svg>
                 </div>
               </div>
-              <div className={styles.optionLabel}>Deel ons verhaal</div>
-              <h3>Vertel het verder</h3>
-              <p>
-                Roddelen hoeft niet negatief te zijn, deel ons verhaal en laat
-                dit krachtige verhaal rondgaan. Door het gewoon door te
-                vertellen, kan jij echt impact hebben op iemand anders leven.
-              </p>
+              <div className={styles.optionLabel}>{t.join.shareLabel}</div>
+              <h3>{t.join.shareTitle}</h3>
+              <p>{t.join.shareDesc}</p>
               <div className={styles.socialShare}>
                 <a
                   href="https://www.instagram.com/breatouch"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.socialBtn}
-                  aria-label="Deel op Instagram"
+                  aria-label={t.common.shareOnInstagram}
                 >
                   <svg
                     width="20"
@@ -126,7 +86,7 @@ export default async function DoeMee() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.socialBtn}
-                  aria-label="Volg op TikTok"
+                  aria-label={t.common.followOnTikTok}
                 >
                   <svg
                     width="20"
@@ -143,7 +103,7 @@ export default async function DoeMee() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.socialBtn}
-                  aria-label="BréaTouch op LinkedIn"
+                  aria-label={t.common.onLinkedIn}
                 >
                   <svg
                     width="20"
@@ -158,7 +118,6 @@ export default async function DoeMee() {
               </div>
             </div>
 
-            {/* Sponsoring */}
             <div
               className={`card ${styles.optionCard} ${styles.optionSponsor}`}
             >
@@ -185,42 +144,35 @@ export default async function DoeMee() {
                   </svg>
                 </div>
               </div>
-              <div className={styles.optionLabel}>Voor bedrijven</div>
-              <h3>Sponsoring</h3>
-              <p>
-                Ook bedrijven kunnen een belangrijke rol spelen. Door ons te
-                ondersteunen als sponsor, help je onze onderneming verder
-                groeien en meer mensen bereiken – samen werken we aan een
-                duurzame impact.
-              </p>
+              <div className={styles.optionLabel}>{t.join.sponsorLabel}</div>
+              <h3>{t.join.sponsorTitle}</h3>
+              <p>{t.join.sponsorDesc}</p>
               <Link href="/sponsoring-contact" className="btn btn--outline">
-                Word sponsor
+                {t.join.sponsorCta}
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Samenwerking */}
-
-      {/* Sponsors Placeholder */}
       <section className={`section ${styles.sponsors}`} id="sponsors">
         <div className="container text-center">
-          <span className="badge badge--yellow">Sponsors</span>
-          <h2 style={{ marginTop: "var(--space-md)" }}>Onze sponsors</h2>
+          <span className="badge badge--yellow">{t.join.sponsorsBadge}</span>
+          <h2 style={{ marginTop: "var(--space-md)" }}>
+            {t.join.sponsorsTitle}
+          </h2>
           <div className="divider divider--center" />
           <div className={styles.sponsorsPlaceholder}>
             {sponsors.length > 0 && (
-              <SponsorHoneycomb sponsors={sponsors} embedded />
+              <SponsorHoneycomb
+                sponsors={sponsors}
+                embedded
+                ariaLabel={t.common.ourSponsors}
+              />
             )}
-            <p>
-              Interesse om partner van BréaTouch te worden? Als sponsor maak je
-              samen met ons zelfonderzoek toegankelijk voor iedereen. Op de
-              sponsorpagina vind je onze pakketten (Supporter tot Goud), de
-              voorwaarden en een formulier om vrijblijvend contact op te nemen.
-            </p>
+            <p>{t.join.sponsorsDesc}</p>
             <Link href="/sponsoring-contact" className="btn btn--primary">
-              Sponsorovereenkomst
+              {t.join.sponsorsCta}
             </Link>
           </div>
         </div>

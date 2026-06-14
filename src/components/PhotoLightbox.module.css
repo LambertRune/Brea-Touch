@@ -1,0 +1,90 @@
+.photoLightboxTrigger {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: zoom-in;
+  text-align: inherit;
+}
+
+.photoLightboxTrigger:focus-visible {
+  outline: 2px solid var(--color-brown, #8b5a3c);
+  outline-offset: 3px;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg, 1.5rem);
+  background: rgb(0 0 0 / 72%);
+  animation: photoLightboxFadeIn 0.32s ease forwards;
+}
+
+.stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md, 1rem);
+  max-width: min(96vw, 1200px);
+  max-height: 92vh;
+}
+
+.fullImage {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: calc(92vh - 3rem);
+  object-fit: contain;
+  border-radius: var(--radius-md, 8px);
+  box-shadow: 0 24px 64px rgb(0 0 0 / 35%);
+  animation: photoLightboxZoomIn 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.closeBtn {
+  flex-shrink: 0;
+  padding: 0.5rem 1.25rem;
+  border: 2px solid rgb(255 255 255 / 85%);
+  border-radius: var(--radius-md, 8px);
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  animation: photoLightboxFadeIn 0.35s ease 0.08s both;
+}
+
+@keyframes photoLightboxFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes photoLightboxZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .fullImage,
+  .closeBtn {
+    animation: none;
+  }
+}

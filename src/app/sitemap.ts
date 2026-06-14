@@ -9,6 +9,7 @@ const STATIC_PAGES: ReadonlyArray<{
 }> = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
   { path: "/missie-visie", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/zelfonderzoek", changeFrequency: "weekly", priority: 0.85 },
   { path: "/doe-mee", changeFrequency: "monthly", priority: 0.8 },
   { path: "/sponsoring-contact", changeFrequency: "monthly", priority: 0.7 },
   { path: "/contact", changeFrequency: "monthly", priority: 0.7 },

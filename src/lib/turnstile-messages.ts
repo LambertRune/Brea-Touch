@@ -1,5 +1,6 @@
-export const TURNSTILE_MISSING_MESSAGE =
-  "Bevestig dat je geen robot bent (CAPTCHA).";
+import { getServerLocale } from "@/lib/i18n/server";
+import { getMessages } from "@/lib/i18n/get-messages";
 
-export const TURNSTILE_FAILED_MESSAGE =
-  "CAPTCHA-verificatie mislukt. Vernieuw de pagina en probeer opnieuw.";
+export async function getTurnstileMessages() {
+  return getMessages(await getServerLocale()).turnstile;
+}
